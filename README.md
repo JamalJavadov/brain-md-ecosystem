@@ -49,11 +49,14 @@ Important generated files:
 - `research-brain/vault/folders/<folder-slug>/folder.prompt.md`
 - `research-brain/vault/folders/<folder-slug>/docs/*.md`
 - `research-brain/imports/archive/`
-- `research-brain/brain.sqlite`
 
-Markdown files stay as real files on disk. SQLite stores metadata. Every original
-import is preserved in the archive together with a JSON manifest that records
-which generated files were indexed.
+Markdown files are the durable source of truth and are safe to sync through Git.
+Each knowledge file stores its important metadata in frontmatter, including
+title, summary, tags, keywords, importance, and source information. SQLite
+`research-brain/brain.sqlite` is only a local rebuildable index/cache for fast
+UI browsing, duplicate checks, and search, so it is intentionally ignored by
+Git. When the app starts, it scans the Markdown vault and rebuilds/syncs the
+local SQLite index from the files on disk.
 
 ## Current Features
 

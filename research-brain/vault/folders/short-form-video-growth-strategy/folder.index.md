@@ -1,6 +1,6 @@
 # Short Form Video Growth Strategy - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy`
+Folder path: `research-brain/vault/folders/short-form-video-growth-strategy`
 
 ## Purpose
 
@@ -16,22 +16,22 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - Vertical Short-Form Video Safe Zones (1/5, platform / measurement)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/vertical-short-form-video-safe-zones.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/vertical-short-form-video-safe-zones.md`
   - Use when: A July 2026 working guide to safe zones for Instagram Reels, YouTube Shorts, and TikTok, including platform-specific overlay risks, universal cross-platform placement rules, editing workflows, and export checks.
 - Short-Form Video Platform Metrics and Rules (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-platform-metrics-and-rules.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-platform-metrics-and-rules.md`
   - Use when: Platform-specific rules and analytics signals for YouTube Shorts, Instagram Reels, and TikTok, including 2025-era view definitions, recommendation eligibility, ranking signals, and metric interpretation.
 - Short-Form Video Ranking Signals (1/5, platform / measurement)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-ranking-signals.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-ranking-signals.md`
   - Use when: Cross-platform ranking principles for TikTok, Instagram Reels, and YouTube Shorts, focused on exposure signals, satisfaction signals, negative signals, and the practical metrics creators should optimize.
 - Short-Form Video Publishing, Testing, and Reusable Assets (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-publishing-testing-and-reusable-assets.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-publishing-testing-and-reusable-assets.md`
   - Use when: A short-form publishing and improvement system with metadata rules, collaboration guidance, a production checklist, a 30-day testing plan, hook templates, script templates, and metrics definitions.
 - Short-Form Video Viewer Psychology (1/5, strategy / principles)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-viewer-psychology.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-viewer-psychology.md`
   - Use when: A practical psychology model for short-form retention based on curiosity gaps, novelty, story immersion, relatability, captions, and clarity rather than vague dopamine-hacking claims.
 - Short-Form Video Retention and Scripting (1/5, strategy / principles)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-retention-scripting.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-retention-scripting.md`
   - Use when: A practical framework for scripting short videos that people finish: hook, promise, progression, payoff, length selection, genre-specific structures, and metadata-script alignment.
 
 ## Suggested Reading Order
@@ -45,15 +45,15 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- 2d Educational Animation: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/folder.index.md`
-- Youtube Educational Scriptwriting: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
-- Ai Motion Graphics Storyboarding: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
-- Youtube Video Packaging: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-video-packaging/folder.index.md`
+- 2d Educational Animation: `research-brain/vault/folders/2d-educational-animation/folder.index.md`
+- Youtube Educational Scriptwriting: `research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
+- Ai Motion Graphics Storyboarding: `research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
+- Youtube Video Packaging: `research-brain/vault/folders/youtube-video-packaging/folder.index.md`
 
 ## Files
 
 - Short-Form Product and Jewelry Video Playbook
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-product-and-jewelry-video-playbook.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-product-and-jewelry-video-playbook.md`
   - Original file: `deep-research-report (10).md`
   - Summary: Short-form product and jewelry content works best when it demonstrates, compares, tests, or tells a human story instead of looking like a static advertisement.
   - Tags: short-form-video, product-marketing, jewelry
@@ -64,7 +64,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `7bbfc63c-8a8f-4563-91e8-d5ebe97708bc`
   - Added: 2026-07-08T08:27:41.956Z
 - Short-Form Video 30-Day Content Plan and Review System
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-30-day-content-plan-and-review-system.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-30-day-content-plan-and-review-system.md`
   - Original file: `deep-research-report (10).md`
   - Summary: A practical 30-day short-form posting plan that mixes hook tests, visual retention, search-led utility, social shareability, UGC proof, and weekly performance review.
   - Tags: short-form-video, content-calendar, testing
@@ -75,7 +75,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `7bbfc63c-8a8f-4563-91e8-d5ebe97708bc`
   - Added: 2026-07-08T08:27:41.957Z
 - Short-Form Video Editing and Platform Differences
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-editing-and-platform-differences.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-editing-and-platform-differences.md`
   - Original file: `deep-research-report (5).md`
   - Summary: Editing and platform-specific optimization rules for TikTok, Instagram Reels, and YouTube Shorts, including framing, clarity, audio, native feel, and discovery behavior.
   - Tags: short-form-video, video-editing, platform-strategy
@@ -86,7 +86,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `97c6f27a-da0e-469f-9229-12a7e4752ec8`
   - Added: 2026-07-07T11:16:39.521Z
 - Short-Form Video Platform Metrics and Rules
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-platform-metrics-and-rules.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-platform-metrics-and-rules.md`
   - Original file: `deep-research-report (10).md`
   - Summary: Platform-specific rules and analytics signals for YouTube Shorts, Instagram Reels, and TikTok, including 2025-era view definitions, recommendation eligibility, ranking signals, and metric interpretation.
   - Tags: short-form-video, platform-strategy, analytics
@@ -97,7 +97,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `7bbfc63c-8a8f-4563-91e8-d5ebe97708bc`
   - Added: 2026-07-08T08:27:41.961Z
 - Short-Form Video Publishing, Testing, and Reusable Assets
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-publishing-testing-and-reusable-assets.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-publishing-testing-and-reusable-assets.md`
   - Original file: `deep-research-report (5).md`
   - Summary: A short-form publishing and improvement system with metadata rules, collaboration guidance, a production checklist, a 30-day testing plan, hook templates, script templates, and metrics definitions.
   - Tags: short-form-video, testing, templates
@@ -108,7 +108,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `97c6f27a-da0e-469f-9229-12a7e4752ec8`
   - Added: 2026-07-07T11:16:39.522Z
 - Short-Form Video Ranking Signals
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-ranking-signals.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-ranking-signals.md`
   - Original file: `deep-research-report (5).md`
   - Summary: Cross-platform ranking principles for TikTok, Instagram Reels, and YouTube Shorts, focused on exposure signals, satisfaction signals, negative signals, and the practical metrics creators should optimize.
   - Tags: short-form-video, ranking-systems, analytics
@@ -119,7 +119,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `97c6f27a-da0e-469f-9229-12a7e4752ec8`
   - Added: 2026-07-07T11:16:39.523Z
 - Short-Form Video Retention and Scripting
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-retention-scripting.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-retention-scripting.md`
   - Original file: `deep-research-report (5).md`
   - Summary: A practical framework for scripting short videos that people finish: hook, promise, progression, payoff, length selection, genre-specific structures, and metadata-script alignment.
   - Tags: short-form-video, scriptwriting, retention
@@ -130,7 +130,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `97c6f27a-da0e-469f-9229-12a7e4752ec8`
   - Added: 2026-07-07T11:16:39.524Z
 - Short-Form Video Viewer Psychology
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-viewer-psychology.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/short-form-video-viewer-psychology.md`
   - Original file: `deep-research-report (10).md`
   - Summary: A practical psychology model for short-form retention based on curiosity gaps, novelty, story immersion, relatability, captions, and clarity rather than vague dopamine-hacking claims.
   - Tags: short-form-video, viewer-psychology, retention
@@ -141,7 +141,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `7bbfc63c-8a8f-4563-91e8-d5ebe97708bc`
   - Added: 2026-07-08T08:27:41.977Z
 - Vertical Short-Form Video Safe Zones
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/docs/vertical-short-form-video-safe-zones.md`
+  - Path: `research-brain/vault/folders/short-form-video-growth-strategy/docs/vertical-short-form-video-safe-zones.md`
   - Original file: `deep-research-report (9).md`
   - Summary: A July 2026 working guide to safe zones for Instagram Reels, YouTube Shorts, and TikTok, including platform-specific overlay risks, universal cross-platform placement rules, editing workflows, and export checks.
   - Tags: short-form-video, safe-zones, vertical-video

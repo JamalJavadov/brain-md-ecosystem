@@ -69,6 +69,8 @@ type MarkdownMetadata = {
   sourceSection: string;
 };
 
+type FrontmatterValue = string | number | string[] | undefined;
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 50 * 1024 * 1024 }
@@ -114,6 +116,12 @@ function folderDocsDir(folder: Folder) {
   return path.join(folderRoot(folder), "docs");
 }
 
+function repoRelativePath(filePath: string) {
+  const relativePath = path.relative(ROOT_DIR, filePath);
+  if (relativePath.startsWith("..")) return filePath;
+  return relativePath.split(path.sep).join("/");
+}
+
 function uniqueStoredName(folder: Folder, requestedName: string, currentPath = "") {
   const docsDir = folderDocsDir(folder);
   const first = safeFilename(requestedName);
@@ -157,6 +165,58 @@ function hashText(content: string) {
 function contentHash(content: string) {
   const normalized = normalizeMarkdownForDedup(content);
   return hashText(normalized || content);
+}
+
+function splitFrontmatter(content: string) {
+  const frontmatter = content.match(/^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n)?/);
+  if (!frontmatter) return { lines: [] as string[], metadata: {} as Record<string, string>, body: content };
+
+  const metadata: Record<string, string> = {};
+  const lines = frontmatter[1].split(/\r?\n/);
+  for (const line of lines) {
+    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (match) metadata[match[1].trim().toLowerCase()] = match[2].trim();
+  }
+
+  return {
+    lines,
+    metadata,
+    body: content.slice(frontmatter[0].length)
+  };
+}
+
+function formatFrontmatterValue(value: Exclude<FrontmatterValue, undefined>) {
+  if (Array.isArray(value)) return JSON.stringify(value);
+  if (typeof value === "number") return String(value);
+  return JSON.stringify(value);
+}
+
+function upsertMarkdownFrontmatter(content: string, updates: Record<string, FrontmatterValue>) {
+  const keys = new Set(Object.keys(updates).map((key) => key.toLowerCase()));
+  const parsed = splitFrontmatter(content);
+  const keptLines = parsed.lines.filter((line) => {
+    const match = line.match(/^([A-Za-z0-9_-]+):/);
+    return !match || !keys.has(match[1].trim().toLowerCase());
+  });
+  const orderedKeys = [
+    "source_import_id",
+    "source_file",
+    "source_section",
+    "title",
+    "summary",
+    "importance",
+    "tags",
+    "keywords"
+  ];
+  const updateLines = orderedKeys
+    .filter((key) => Object.prototype.hasOwnProperty.call(updates, key) && updates[key] !== undefined)
+    .map((key) => `${key}: ${formatFrontmatterValue(updates[key] as Exclude<FrontmatterValue, undefined>)}`);
+  const extraLines = Object.keys(updates)
+    .filter((key) => !orderedKeys.includes(key) && updates[key] !== undefined)
+    .map((key) => `${key}: ${formatFrontmatterValue(updates[key] as Exclude<FrontmatterValue, undefined>)}`);
+  const lines = [...updateLines, ...extraLines, ...keptLines.filter((line) => line.trim())];
+
+  return `---\n${lines.join("\n")}\n---\n\n${parsed.body.trimStart()}`;
 }
 
 ensureDir(BRAIN_DIR);
@@ -315,13 +375,24 @@ function createFileRecord(
     sourceSection?: string;
   }
 ) {
-  const fileContentHash = contentHash(params.content);
+  const parsedMetadata = parseMarkdownMetadata(params.displayName, params.content);
+  const contentWithMetadata = upsertMarkdownFrontmatter(params.content, {
+    title: params.displayName || parsedMetadata.title,
+    summary: params.summary ?? parsedMetadata.summary,
+    tags: params.tags ?? parsedMetadata.tags,
+    keywords: params.keywords ?? parsedMetadata.keywords,
+    importance: Math.max(1, Math.min(5, params.importance ?? parsedMetadata.importance)),
+    source_import_id: params.sourceImportId || parsedMetadata.sourceImportId || undefined,
+    source_file: params.originalName || parsedMetadata.sourceFile || undefined,
+    source_section: params.sourceSection || parsedMetadata.sourceSection || undefined
+  });
+  const fileContentHash = contentHash(contentWithMetadata);
   const duplicate = getFileByContentHash(fileContentHash);
   if (duplicate) return duplicate;
 
   const storedName = uniqueStoredName(folder, params.displayName);
   const destination = path.join(folderDocsDir(folder), storedName);
-  writeText(destination, params.content);
+  writeText(destination, contentWithMetadata);
 
   const researchFile: ResearchFile = {
     id: randomUUID(),
@@ -330,14 +401,14 @@ function createFileRecord(
     original_name: params.originalName,
     stored_name: storedName,
     path: destination,
-    size_bytes: Buffer.byteLength(params.content, "utf8"),
+    size_bytes: Buffer.byteLength(contentWithMetadata, "utf8"),
     created_at: nowIso(),
-    summary: params.summary ?? "",
-    tags_json: JSON.stringify(params.tags ?? []),
-    keywords_json: JSON.stringify(params.keywords ?? []),
-    importance: Math.max(1, Math.min(5, params.importance ?? 3)),
-    source_import_id: params.sourceImportId ?? "",
-    source_section: params.sourceSection ?? "",
+    summary: params.summary ?? parsedMetadata.summary,
+    tags_json: JSON.stringify(params.tags ?? parsedMetadata.tags),
+    keywords_json: JSON.stringify(params.keywords ?? parsedMetadata.keywords),
+    importance: Math.max(1, Math.min(5, params.importance ?? parsedMetadata.importance)),
+    source_import_id: params.sourceImportId ?? parsedMetadata.sourceImportId,
+    source_section: params.sourceSection ?? parsedMetadata.sourceSection,
     content_hash: fileContentHash
   };
 
@@ -495,7 +566,7 @@ function buildFolderIndex(folder: Folder) {
   const lines = [
     `# ${folder.name} - Folder Index`,
     "",
-    `Folder path: \`${folderRoot(folder)}\``,
+    `Folder path: \`${repoRelativePath(folderRoot(folder))}\``,
     "",
     "## Purpose",
     "",
@@ -519,7 +590,7 @@ function buildFolderIndex(folder: Folder) {
   } else {
     for (const file of priorityFiles) {
       lines.push(`- ${file.display_name} (${file.importance}/5, ${evidenceType(file)})`);
-      lines.push(`  - Path: \`${file.path}\``);
+      lines.push(`  - Path: \`${repoRelativePath(file.path)}\``);
       lines.push(`  - Use when: ${file.summary || "The task overlaps with this file's title, tags, or source section."}`);
     }
   }
@@ -544,7 +615,7 @@ function buildFolderIndex(folder: Folder) {
     lines.push("No strongly related folders were detected from current tags and keywords.");
   } else {
     for (const relatedFolder of relatedFolders) {
-      lines.push(`- ${relatedFolder.name}: \`${path.join(folderRoot(relatedFolder), "folder.index.md")}\``);
+      lines.push(`- ${relatedFolder.name}: \`${repoRelativePath(path.join(folderRoot(relatedFolder), "folder.index.md"))}\``);
     }
   }
 
@@ -561,7 +632,7 @@ function buildFolderIndex(folder: Folder) {
       const tags = parseStringArray(file.tags_json);
       const keywords = parseStringArray(file.keywords_json);
       lines.push(`- ${file.display_name}`);
-      lines.push(`  - Path: \`${file.path}\``);
+      lines.push(`  - Path: \`${repoRelativePath(file.path)}\``);
       lines.push(`  - Original file: \`${file.original_name}\``);
       if (file.summary) lines.push(`  - Summary: ${file.summary}`);
       if (tags.length) lines.push(`  - Tags: ${tags.join(", ")}`);
@@ -591,7 +662,7 @@ function buildFolderPrompt(folder: Folder) {
       ? ["No Markdown files are currently stored in this folder."]
       : files.map(
           (file) =>
-            `- ${file.display_name} (importance ${file.importance}/5): ${file.path}${file.summary ? `\n  Summary: ${file.summary}` : ""}`
+            `- ${file.display_name} (importance ${file.importance}/5): ${repoRelativePath(file.path)}${file.summary ? `\n  Summary: ${file.summary}` : ""}`
         );
 
   return [
@@ -602,8 +673,8 @@ function buildFolderPrompt(folder: Folder) {
     "## Instructions For Codex",
     "",
     `You are working with the local research folder named "${folder.name}".`,
-    `Folder path: ${folderRoot(folder)}`,
-    `Folder index path: ${path.join(folderRoot(folder), "folder.index.md")}`,
+    `Folder path: ${repoRelativePath(folderRoot(folder))}`,
+    `Folder index path: ${repoRelativePath(path.join(folderRoot(folder), "folder.index.md"))}`,
     "",
     "Before completing the user's task:",
     "",
@@ -629,7 +700,7 @@ function buildBrainIndex() {
   const lines = [
     "# Codex Research Brain - Global Index",
     "",
-    `Brain root: \`${BRAIN_DIR}\``,
+    `Brain root: \`${repoRelativePath(BRAIN_DIR)}\``,
     "",
     "Use this index as the high-level routing map for the local research vault.",
     "Start here, choose a small set of candidate folders, then open their folder indexes before reading specific Markdown files.",
@@ -663,9 +734,9 @@ function buildBrainIndex() {
     lines.push(`### ${folder.name}`);
     lines.push("");
     lines.push(`- Slug: \`${folder.slug}\``);
-    lines.push(`- Folder path: \`${folderRoot(folder)}\``);
-    lines.push(`- Folder index: \`${path.join(folderRoot(folder), "folder.index.md")}\``);
-    lines.push(`- Folder prompt: \`${path.join(folderRoot(folder), "folder.prompt.md")}\``);
+    lines.push(`- Folder path: \`${repoRelativePath(folderRoot(folder))}\``);
+    lines.push(`- Folder index: \`${repoRelativePath(path.join(folderRoot(folder), "folder.index.md"))}\``);
+    lines.push(`- Folder prompt: \`${repoRelativePath(path.join(folderRoot(folder), "folder.prompt.md"))}\``);
     lines.push(`- Purpose: ${folder.description || "No description has been added yet."}`);
     lines.push(`- Route when: ${folderRouteLabel(folder, folderFiles)}`);
     if (routingTerms.length) lines.push(`- Routing terms: ${routingTerms.join(", ")}`);
@@ -695,10 +766,10 @@ function buildBrainPrompt() {
     "",
     "## Vault Identity",
     "",
-    `- Brain root: ${BRAIN_DIR}`,
-    `- Global index: ${path.join(BRAIN_DIR, "brain.index.md")}`,
-    `- Global prompt: ${path.join(BRAIN_DIR, "brain.prompt.md")}`,
-    `- Vault folders root: ${FOLDERS_DIR}`,
+    `- Brain root: ${repoRelativePath(BRAIN_DIR)}`,
+    `- Global index: ${repoRelativePath(path.join(BRAIN_DIR, "brain.index.md"))}`,
+    `- Global prompt: ${repoRelativePath(path.join(BRAIN_DIR, "brain.prompt.md"))}`,
+    `- Vault folders root: ${repoRelativePath(FOLDERS_DIR)}`,
     `- Indexed folders: ${folders.length}`,
     `- Indexed Markdown files: ${totalFiles}`,
     "",
@@ -723,7 +794,7 @@ function buildBrainPrompt() {
     "Use this workflow for every task that may need the vault:",
     "",
     "1. Read the user's task and extract: objective, deliverable, audience, platform, medium, constraints, quality bar, and keywords.",
-    `2. Open the global index: ${path.join(BRAIN_DIR, "brain.index.md")}`,
+    `2. Open the global index: ${repoRelativePath(path.join(BRAIN_DIR, "brain.index.md"))}`,
     "3. Build a short candidate list of folders. Include obvious matches and adjacent folders that could materially improve the result.",
     "4. Open each candidate folder's `folder.index.md` for file-level routing.",
     "5. Choose the exact Markdown files whose summaries, tags, keywords, examples, source sections, checklists, or workflows can help the current deliverable.",
@@ -762,19 +833,19 @@ function buildBrainPrompt() {
     "",
     "When shell access is available, these commands are useful:",
     "",
-    `- List vault files: \`rg --files ${JSON.stringify(FOLDERS_DIR)}\``,
-    `- Search research text: \`rg -n \"<topic or keyword>\" ${JSON.stringify(FOLDERS_DIR)}\``,
-    `- Open global index: \`sed -n '1,220p' ${JSON.stringify(path.join(BRAIN_DIR, "brain.index.md"))}\``,
+    `- List vault files: \`rg --files ${JSON.stringify(repoRelativePath(FOLDERS_DIR))}\``,
+    `- Search research text: \`rg -n \"<topic or keyword>\" ${JSON.stringify(repoRelativePath(FOLDERS_DIR))}\``,
+    `- Open global index: \`sed -n '1,220p' ${JSON.stringify(repoRelativePath(path.join(BRAIN_DIR, "brain.index.md")))}\``,
     "",
     "## Retrieval Map",
     "",
     "Keep this main prompt small. Do not expect the folder map to be embedded here.",
-    `For routing, open the global index: ${path.join(BRAIN_DIR, "brain.index.md")}`,
+    `For routing, open the global index: ${repoRelativePath(path.join(BRAIN_DIR, "brain.index.md"))}`,
     "That index contains folder purposes, priority knowledge, and file-level entry points.",
     "",
     "When a task mentions a topic directly, search the vault before choosing files:",
     "",
-    `- \`rg -n "<topic or keyword>" ${JSON.stringify(FOLDERS_DIR)}\``,
+    `- \`rg -n "<topic or keyword>" ${JSON.stringify(repoRelativePath(FOLDERS_DIR))}\``,
     "",
     "Use these steps instead of loading the whole vault into context:",
     "",
@@ -869,16 +940,8 @@ function parseMetadataArray(value: string) {
 }
 
 function parseMarkdownMetadata(filePath: string, content: string): MarkdownMetadata {
-  const metadata: Record<string, string> = {};
-  const frontmatter = content.match(/^---\s*\n([\s\S]*?)\n---\s*/);
-  if (frontmatter) {
-    for (const line of frontmatter[1].split(/\r?\n/)) {
-      const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
-      if (match) metadata[match[1].trim().toLowerCase()] = match[2].trim();
-    }
-  }
+  const { metadata, body } = splitFrontmatter(content);
 
-  const body = frontmatter ? content.slice(frontmatter[0].length) : content;
   const heading = body.match(/^#\s+(.+)$/m)?.[1]?.trim();
   const firstParagraph =
     body
@@ -902,6 +965,21 @@ function parseMarkdownMetadata(filePath: string, content: string): MarkdownMetad
   };
 }
 
+function parseFolderMetadataFromDisk(slug: string, folderPath: string, docs: string[]) {
+  const indexPath = path.join(folderPath, "folder.index.md");
+  const indexContent = readTextIfExists(indexPath);
+  const heading = indexContent.match(/^#\s+(.+?)(?:\s+-\s+Folder Index)?\s*$/m)?.[1]?.trim();
+  const purpose = indexContent
+    .match(/## Purpose\s+([\s\S]*?)(?=\n## |\s*$)/)?.[1]
+    ?.trim()
+    .replace(/^No description has been added yet\.$/, "");
+  const firstMetadata = docs[0] ? parseMarkdownMetadata(docs[0], readTextIfExists(docs[0])) : undefined;
+  const name = heading || titleFromSlug(slug);
+  const description = purpose || firstMetadata?.summary || `Research related to ${name}.`;
+
+  return { name, description };
+}
+
 function syncVaultFromDisk(importId = "", originalName = "") {
   ensureDir(FOLDERS_DIR);
   const beforePaths = new Set(allFiles().map((file) => file.path));
@@ -911,6 +989,16 @@ function syncVaultFromDisk(importId = "", originalName = "") {
   const folders = fs
     .readdirSync(FOLDERS_DIR, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith("."));
+  const diskFolderSlugs = new Set(folders.map((entry) => slugify(entry.name)));
+
+  for (const folder of allFolders()) {
+    if (diskFolderSlugs.has(folder.slug)) continue;
+    for (const file of filesForFolder(folder.id)) {
+      db.prepare("DELETE FROM file_search WHERE file_id = ?").run(file.id);
+    }
+    db.prepare("DELETE FROM files WHERE folder_id = ?").run(folder.id);
+    db.prepare("DELETE FROM folders WHERE id = ?").run(folder.id);
+  }
 
   for (const entry of folders) {
     const slug = slugify(entry.name);
@@ -920,15 +1008,23 @@ function syncVaultFromDisk(importId = "", originalName = "") {
     if (docs.length === 0) continue;
 
     let folder = getFolderBySlug(slug);
+    const folderMetadata = parseFolderMetadataFromDisk(slug, folderPath, docs);
     if (!folder) {
-      const firstMetadata = parseMarkdownMetadata(docs[0], readTextIfExists(docs[0]));
-      folder = createFolderRecord(titleFromSlug(slug), firstMetadata.summary || `Research related to ${titleFromSlug(slug)}.`);
+      folder = createFolderRecord(folderMetadata.name, folderMetadata.description);
       createdFolderIds.add(folder.id);
       if (folder.slug !== slug) {
         const correctedFolder: Folder = { ...folder, slug };
         db.prepare("UPDATE folders SET slug = ? WHERE id = ?").run(slug, folder.id);
         folder = correctedFolder;
       }
+    } else if (folder.name !== folderMetadata.name || folder.description !== folderMetadata.description) {
+      const updatedFolder: Folder = { ...folder, name: folderMetadata.name, description: folderMetadata.description };
+      db.prepare("UPDATE folders SET name = ?, description = ? WHERE id = ?").run(
+        updatedFolder.name,
+        updatedFolder.description,
+        updatedFolder.id
+      );
+      folder = updatedFolder;
     }
 
     ensureDir(folderDocsDir(folder));
@@ -1301,6 +1397,7 @@ function buildSegmentResults(files: ResearchFile[]) {
   };
 }
 
+syncVaultFromDisk();
 backfillContentHashes();
 backfillSourceHashes();
 cleanupLegacyEmptyFolders();
@@ -1652,11 +1749,23 @@ app.patch("/api/files/:id", (req, res) => {
     fs.renameSync(file.path, destination);
   }
 
-  const renamedFile: ResearchFile = { ...file, display_name: displayName, stored_name: storedName, path: destination };
-  db.prepare("UPDATE files SET display_name = ?, stored_name = ?, path = ? WHERE id = ?").run(
+  const updatedContent = upsertMarkdownFrontmatter(readTextIfExists(destination), { title: displayName });
+  writeText(destination, updatedContent);
+
+  const renamedFile: ResearchFile = {
+    ...file,
+    display_name: displayName,
+    stored_name: storedName,
+    path: destination,
+    size_bytes: Buffer.byteLength(updatedContent, "utf8"),
+    content_hash: contentHash(updatedContent)
+  };
+  db.prepare("UPDATE files SET display_name = ?, stored_name = ?, path = ?, size_bytes = ?, content_hash = ? WHERE id = ?").run(
     renamedFile.display_name,
     renamedFile.stored_name,
     renamedFile.path,
+    renamedFile.size_bytes,
+    renamedFile.content_hash,
     renamedFile.id
   );
   refreshSearchForFile(renamedFile, folder);

@@ -1,6 +1,6 @@
 # Codex Research Brain - Global Index
 
-Brain root: `/Users/camal/Documents/programming/base for ai project/research-brain`
+Brain root: `research-brain`
 
 Use this index as the high-level routing map for the local research vault.
 Start here, choose a small set of candidate folders, then open their folder indexes before reading specific Markdown files.
@@ -28,9 +28,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### 2d Educational Animation
 
 - Slug: `2d-educational-animation`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/2d-educational-animation`
+- Folder index: `research-brain/vault/folders/2d-educational-animation/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/2d-educational-animation/folder.prompt.md`
 - Purpose: Research-backed principles for designing 2D educational animation around cognitive load, attention guidance, segmentation, audience age, and meaningful use of motion.
 - Route when: Use for 2d educational animation tasks involving educational-animation, workflow, quality-control, educational animation workflow, animation storyboard template, educational video quality checklist, 2D explainer production, Production workflow, case studies, and practical tools, templates, and checklists.
 - Routing terms: educational-animation, workflow, quality-control, educational animation workflow, animation storyboard template, educational video quality checklist, 2D explainer production, Production workflow, case studies, and practical tools, templates, and checklists, learning-design, cognitive-load
@@ -45,9 +45,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Ai Jewelry Product Photography
 
 - Slug: `ai-jewelry-product-photography`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-jewelry-product-photography`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-jewelry-product-photography/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-jewelry-product-photography/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/ai-jewelry-product-photography`
+- Folder index: `research-brain/vault/folders/ai-jewelry-product-photography/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/ai-jewelry-product-photography/folder.prompt.md`
 - Purpose: A trust-first strategy for AI-assisted jewelry marketing, including responsible use rules, method tradeoffs, Ring for Baku brand direction, content mix, 30-day testing, and metrics.
 - Route when: Use for ai jewelry product photography tasks involving ai-commerce, jewelry-marketing, brand-trust, AI jewelry trust, synthetic model disclosure, Ring for Baku content mix, 30-day Instagram test, Trust, conversion, responsible use, and next-month strategy.
 - Routing terms: ai-commerce, jewelry-marketing, brand-trust, AI jewelry trust, synthetic model disclosure, Ring for Baku content mix, 30-day Instagram test, Trust, conversion, responsible use, and next-month strategy, ai-product-images, jewelry-photography
@@ -61,9 +61,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Ai Motion Graphics Storyboarding
 
 - Slug: `ai-motion-graphics-storyboarding`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/ai-motion-graphics-storyboarding`
+- Folder index: `research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.prompt.md`
 - Purpose: A production workflow for turning storyboards into Gemini/Veo prompt packets, with continuity rules, notation, templates, a SaaS example, and a pre-generation review checklist.
 - Route when: Use for ai motion graphics storyboarding tasks involving ai-video, prompting, storyboard to prompt, veo storyboard workflow, ai video review checklist, Designing Storyboards for Gemini Omni, Veo, and Other AI Video Tools; Workflow from Brief to Prompt; Templates, Example, and Final Review Standards, motion-graphics, saas-video.
 - Routing terms: ai-video, prompting, storyboard to prompt, veo storyboard workflow, ai video review checklist, Designing Storyboards for Gemini Omni, Veo, and Other AI Video Tools; Workflow from Brief to Prompt; Templates, Example, and Final Review Standards, motion-graphics, saas-video, saas storyboard, ui animation storyboard
@@ -78,9 +78,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Blender Motion Graphics Production
 
 - Slug: `blender-motion-graphics-production`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/blender-motion-graphics-production`
+- Folder index: `research-brain/vault/folders/blender-motion-graphics-production/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/blender-motion-graphics-production/folder.prompt.md`
 - Purpose: Professional Blender motion depends on sculpted F-Curves, stable constraint-led relationships, motivated camera movement, readable typography, causal transitions, and format-aware composition.
 - Route when: Use for blender motion graphics production tasks involving blender, animation, typography, Blender Graph Editor, F-Curves, camera travel and settle, Blender text objects, motion transitions.
 - Routing terms: blender, animation, typography, Blender Graph Editor, F-Curves, camera travel and settle, Blender text objects, motion transitions, Animation, Camera Movement, Typography, Composition, and Transitions, geometry-nodes
@@ -95,9 +95,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Codex Remotion Video Production
 
 - Slug: `codex-remotion-video-production`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/codex-remotion-video-production`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/codex-remotion-video-production/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/codex-remotion-video-production`
+- Folder index: `research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/codex-remotion-video-production/folder.prompt.md`
 - Purpose: A production prompt framework for Remotion work, including what to specify before coding and how to iterate instead of asking for a whole video at once.
 - Route when: Use for codex remotion video production tasks involving bacariq, codex, prompting, BacarIQ Codex prompt template, Remotion rebuild criteria, BacarIQ reveal rules, Reveal rules, Part 1 lessons learned, prompt structure, implementation templates, bug-fix template, rebuild criteria, prompting tone, and done-when examples, assets.
 - Routing terms: bacariq, codex, prompting, BacarIQ Codex prompt template, Remotion rebuild criteria, BacarIQ reveal rules, Reveal rules, Part 1 lessons learned, prompt structure, implementation templates, bug-fix template, rebuild criteria, prompting tone, and done-when examples, assets, qa, BacarIQ asset audit
@@ -112,9 +112,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Color Design For Commercial Video
 
 - Slug: `color-design-for-commercial-video`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/color-design-for-commercial-video`
+- Folder index: `research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/color-design-for-commercial-video/folder.prompt.md`
 - Purpose: Color-specific prompting practices for AI-generated commercial video, including common failure modes, prompt fragments, a master template, and delivery constraints.
 - Route when: Use for color design for commercial video tasks involving ai-video, prompting, commercial-video, color-direction, AI video color prompt, Sora color consistency, commercial product video prompt template, AI video generation workflow, common mistakes, and prompting.
 - Routing terms: ai-video, prompting, commercial-video, color-direction, AI video color prompt, Sora color consistency, commercial product video prompt template, AI video generation workflow, common mistakes, and prompting, color-psychology, branding
@@ -129,9 +129,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Front End Ui Ux Design
 
 - Slug: `front-end-ui-ux-design`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/front-end-ui-ux-design`
+- Folder index: `research-brain/vault/folders/front-end-ui-ux-design/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/front-end-ui-ux-design/folder.prompt.md`
 - Purpose: Front-end quality requires accessible interaction, adaptive layouts, field-measured performance, purposeful motion, and careful adoption of current trends.
 - Route when: Use for front end ui ux design tasks involving accessibility, responsive-design, performance, WCAG 2.2, Core Web Vitals, prefers-reduced-motion, responsive layout, touch targets.
 - Routing terms: accessibility, responsive-design, performance, WCAG 2.2, Core Web Vitals, prefers-reduced-motion, responsive layout, touch targets, Accessibility, Responsiveness, Performance, and Motion, front-end-design
@@ -146,9 +146,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Premium Product Sound Design
 
 - Slug: `premium-product-sound-design`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/premium-product-sound-design`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/premium-product-sound-design/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/premium-product-sound-design/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/premium-product-sound-design`
+- Folder index: `research-brain/vault/folders/premium-product-sound-design/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/premium-product-sound-design/folder.prompt.md`
 - Purpose: Workflow for prompting sound in Veo, Gemini Omni, Flow Music, and Lyria, including common AI sound failures, prompt prevention methods, and reusable audio prompt templates.
 - Route when: Use for premium product sound design tasks involving ai-video, audio-prompting, google-flow, Veo audio prompt, Gemini Omni sound design, Flow Music Lyria workflow, negative audio prompt, Sound Design for AI Video Generation and Google Workflows.
 - Routing terms: ai-video, audio-prompting, google-flow, Veo audio prompt, Gemini Omni sound design, Flow Music Lyria workflow, negative audio prompt, Sound Design for AI Video Generation and Google Workflows, mixing, loudness
@@ -163,9 +163,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Product Video Lighting Standard
 
 - Slug: `product-video-lighting-standard`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/product-video-lighting-standard`
+- Folder index: `research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/product-video-lighting-standard/folder.prompt.md`
 - Purpose: Workflow rules for realistic CGI and AI product lighting, including motion continuity, Blender lighting practice, Flow and Veo prompting, vertical delivery, and post-production checks.
 - Route when: Use for product video lighting standard tasks involving ai-video, 3d-lighting, product-video, Veo lighting prompt, Google Flow lighting continuity, Blender product lighting, vertical product video lighting, AI Video and 3D Production Workflows.
 - Routing terms: ai-video, 3d-lighting, product-video, Veo lighting prompt, Google Flow lighting continuity, Blender product lighting, vertical product video lighting, AI Video and 3D Production Workflows, product-lighting, material-realism
@@ -180,9 +180,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Product Video Material Realism
 
 - Slug: `product-video-material-realism`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-material-realism`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-material-realism/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-material-realism/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/product-video-material-realism`
+- Folder index: `research-brain/vault/folders/product-video-material-realism/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/product-video-material-realism/folder.prompt.md`
 - Purpose: A diagnostic table of common AI product-material failures, why they happen, how they look, and how to prevent or fix them.
 - Route when: Use for product video material realism tasks involving ai-video, quality-control, material-failures, plastic AI look, uniform gloss, floating object look, random highlight flicker, Common AI material mistake table.
 - Routing terms: ai-video, quality-control, material-failures, plastic AI look, uniform gloss, floating object look, random highlight flicker, Common AI material mistake table, google-flow, veo
@@ -197,9 +197,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Professional 3d Motion Visuals
 
 - Slug: `professional-3d-motion-visuals`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/professional-3d-motion-visuals`
+- Folder index: `research-brain/vault/folders/professional-3d-motion-visuals/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/professional-3d-motion-visuals/folder.prompt.md`
 - Purpose: A diagnostic guide to why AI-generated 3D and motion visuals often feel cheap or generic, with studio-grade corrections for materials, lighting, typography, composition, and brand strategy.
 - Route when: Use for professional 3d motion visuals tasks involving ai-video, visual-quality, 3d-motion, AI-looking visuals, AI visual failure modes, premium 3D motion, studio-grade correction, Core diagnosis and Why AI visuals read as AI.
 - Routing terms: ai-video, visual-quality, 3d-motion, AI-looking visuals, AI visual failure modes, premium 3D motion, studio-grade correction, Core diagnosis and Why AI visuals read as AI, artiz-az, quality-control
@@ -214,9 +214,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Short Form Video Growth Strategy
 
 - Slug: `short-form-video-growth-strategy`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/short-form-video-growth-strategy`
+- Folder index: `research-brain/vault/folders/short-form-video-growth-strategy/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/short-form-video-growth-strategy/folder.prompt.md`
 - Purpose: Editing and platform-specific optimization rules for TikTok, Instagram Reels, and YouTube Shorts, including framing, clarity, audio, native feel, and discovery behavior.
 - Route when: Use for short form video growth strategy tasks involving short-form-video, product-marketing, jewelry, jewelry short-form video ideas, UGC product video framing, selling without making a video feel like an ad, Formats that travel and still sell, content-calendar.
 - Routing terms: short-form-video, product-marketing, jewelry, jewelry short-form video ideas, UGC product video framing, selling without making a video feel like an ad, Formats that travel and still sell, content-calendar, testing, 30-day short-form content plan
@@ -231,9 +231,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Youtube Educational Scriptwriting
 
 - Slug: `youtube-educational-scriptwriting`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-educational-scriptwriting`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-educational-scriptwriting/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/youtube-educational-scriptwriting`
+- Folder index: `research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/youtube-educational-scriptwriting/folder.prompt.md`
 - Purpose: Hook types, opening sequence, teaching-section pattern, rehooks, payoff, CTA, and an outline template for educational YouTube scripts.
 - Route when: Use for youtube educational scriptwriting tasks involving youtube, scriptwriting, hooks, YouTube video hook, educational video script structure, confirm the click, Strong Opening Hooks and Script Structure for Educational Videos, workflow.
 - Routing terms: youtube, scriptwriting, hooks, YouTube video hook, educational video script structure, confirm the click, Strong Opening Hooks and Script Structure for Educational Videos, workflow, checklist, scriptwriting checklist
@@ -248,9 +248,9 @@ Start here, choose a small set of candidate folders, then open their folder inde
 ### Youtube Video Packaging
 
 - Slug: `youtube-video-packaging`
-- Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-video-packaging`
-- Folder index: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-video-packaging/folder.index.md`
-- Folder prompt: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-video-packaging/folder.prompt.md`
+- Folder path: `research-brain/vault/folders/youtube-video-packaging`
+- Folder index: `research-brain/vault/folders/youtube-video-packaging/folder.index.md`
+- Folder prompt: `research-brain/vault/folders/youtube-video-packaging/folder.prompt.md`
 - Purpose: How to align YouTube packaging with viewer sophistication, discovery surface, niche, long-form versus Shorts behavior, and ethical promise fulfillment.
 - Route when: Use for youtube video packaging tasks involving youtube, audience-strategy, ethics, ethical clickbait, YouTube audience fit, Shorts packaging strategy, Audience Fit, Ethics, and Format Strategy, educational-video.
 - Routing terms: youtube, audience-strategy, ethics, ethical clickbait, YouTube audience fit, Shorts packaging strategy, Audience Fit, Ethics, and Format Strategy, educational-video, descriptions, educational YouTube descriptions

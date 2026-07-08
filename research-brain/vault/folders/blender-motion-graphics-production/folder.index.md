@@ -1,6 +1,6 @@
 # Blender Motion Graphics Production - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production`
+Folder path: `research-brain/vault/folders/blender-motion-graphics-production`
 
 ## Purpose
 
@@ -16,22 +16,22 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - Blender Geometry Nodes, Tools, and Workflow Organization (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-geometry-nodes-tools-and-workflow-organization.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-geometry-nodes-tools-and-workflow-organization.md`
   - Use when: Geometry Nodes should be learned after the Graph Editor for procedural motion systems; the strongest production pattern is instance first, realize late, assetize reusable node groups, and organize projects around reusable libraries.
 - Blender Animation, Camera, Typography, and Transitions (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-animation-camera-typography-and-transitions.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-animation-camera-typography-and-transitions.md`
   - Use when: Professional Blender motion depends on sculpted F-Curves, stable constraint-led relationships, motivated camera movement, readable typography, causal transitions, and format-aware composition.
 - Blender Rendering, Compositing, Sound, and Delivery Workflow (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-rendering-compositing-sound-and-delivery.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-rendering-compositing-sound-and-delivery.md`
   - Use when: A production delivery guide for choosing Eevee or Cycles, rendering frame sequences, using EXR or PNG, preserving passes, compositing lightly, syncing sound, and setting delivery specs early.
 - Blender Motion Graphics Production Baseline and Pipeline (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-production-baseline-and-pipeline.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-production-baseline-and-pipeline.md`
   - Use when: Professional Blender motion graphics depends on controlled hierarchy, readable type, intentional timing, coherent lighting, and a stable production pipeline from research through export.
 - Blender Scene Planning, Materials, and Lighting for Motion Graphics (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-scene-planning-materials-and-lighting.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-scene-planning-materials-and-lighting.md`
   - Use when: A Blender look-development guide covering art direction, modeling discipline, live text, scene organization, Principled BSDF materials, AgX color management, and controlled lighting.
 - Blender Motion Graphics Blueprints, Checklists, and Glossary (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-blueprints-checklists-and-glossary.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-blueprints-checklists-and-glossary.md`
   - Use when: Reusable Blender motion-graphics project recipes, common failure modes, production checklists, a learning path, glossary terms, and a final quality framework.
 
 ## Suggested Reading Order
@@ -45,15 +45,15 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- Codex Remotion Video Production: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
-- Youtube Educational Scriptwriting: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
-- 2d Educational Animation: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/folder.index.md`
-- Ai Motion Graphics Storyboarding: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
+- Codex Remotion Video Production: `research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
+- Youtube Educational Scriptwriting: `research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
+- 2d Educational Animation: `research-brain/vault/folders/2d-educational-animation/folder.index.md`
+- Ai Motion Graphics Storyboarding: `research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
 
 ## Files
 
 - Blender Animation, Camera, Typography, and Transitions
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-animation-camera-typography-and-transitions.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-animation-camera-typography-and-transitions.md`
   - Original file: `Blender Motion Graphics Production Handbook.md`
   - Summary: Professional Blender motion depends on sculpted F-Curves, stable constraint-led relationships, motivated camera movement, readable typography, causal transitions, and format-aware composition.
   - Tags: blender, animation, typography
@@ -64,7 +64,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `a0d5205e-a7ed-4c32-8425-68e0627c23c2`
   - Added: 2026-07-06T19:56:46.878Z
 - Blender Geometry Nodes, Tools, and Workflow Organization
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-geometry-nodes-tools-and-workflow-organization.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-geometry-nodes-tools-and-workflow-organization.md`
   - Original file: `Blender Motion Graphics Production Handbook.md`
   - Summary: Geometry Nodes should be learned after the Graph Editor for procedural motion systems; the strongest production pattern is instance first, realize late, assetize reusable node groups, and organize projects around reusable libraries.
   - Tags: blender, geometry-nodes, workflow
@@ -75,7 +75,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `a0d5205e-a7ed-4c32-8425-68e0627c23c2`
   - Added: 2026-07-06T19:56:46.879Z
 - Blender Motion Graphics Blueprints, Checklists, and Glossary
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-blueprints-checklists-and-glossary.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-blueprints-checklists-and-glossary.md`
   - Original file: `Blender Motion Graphics Production Handbook.md`
   - Summary: Reusable Blender motion-graphics project recipes, common failure modes, production checklists, a learning path, glossary terms, and a final quality framework.
   - Tags: blender, checklist, motion-graphics
@@ -86,7 +86,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `a0d5205e-a7ed-4c32-8425-68e0627c23c2`
   - Added: 2026-07-06T19:56:46.880Z
 - Blender Motion Graphics Production Baseline and Pipeline
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-production-baseline-and-pipeline.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-motion-graphics-production-baseline-and-pipeline.md`
   - Original file: `Blender Motion Graphics Production Handbook.md`
   - Summary: Professional Blender motion graphics depends on controlled hierarchy, readable type, intentional timing, coherent lighting, and a stable production pipeline from research through export.
   - Tags: blender, motion-graphics, production-pipeline
@@ -97,7 +97,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `a0d5205e-a7ed-4c32-8425-68e0627c23c2`
   - Added: 2026-07-06T19:56:46.881Z
 - Blender Rendering, Compositing, Sound, and Delivery Workflow
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-rendering-compositing-sound-and-delivery.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-rendering-compositing-sound-and-delivery.md`
   - Original file: `Blender Motion Graphics Production Handbook.md`
   - Summary: A production delivery guide for choosing Eevee or Cycles, rendering frame sequences, using EXR or PNG, preserving passes, compositing lightly, syncing sound, and setting delivery specs early.
   - Tags: blender, rendering, delivery
@@ -108,7 +108,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `a0d5205e-a7ed-4c32-8425-68e0627c23c2`
   - Added: 2026-07-06T19:56:46.881Z
 - Blender Scene Planning, Materials, and Lighting for Motion Graphics
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/docs/blender-scene-planning-materials-and-lighting.md`
+  - Path: `research-brain/vault/folders/blender-motion-graphics-production/docs/blender-scene-planning-materials-and-lighting.md`
   - Original file: `Blender Motion Graphics Production Handbook.md`
   - Summary: A Blender look-development guide covering art direction, modeling discipline, live text, scene organization, Principled BSDF materials, AgX color management, and controlled lighting.
   - Tags: blender, look-development, lighting

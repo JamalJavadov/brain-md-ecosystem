@@ -1,6 +1,6 @@
 # Front End Ui Ux Design - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design`
+Folder path: `research-brain/vault/folders/front-end-ui-ux-design`
 
 ## Purpose
 
@@ -16,22 +16,22 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - UX Behavior and Conversion Principles (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/ux-behavior-and-conversion-principles.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/ux-behavior-and-conversion-principles.md`
   - Use when: Good UX starts with user goals, reduces avoidable thinking, uses clear feedback and navigation, and treats conversion as friction reduction rather than pressure.
 - Accessibility, Responsive Design, Performance, and Motion (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/accessibility-responsive-performance-and-motion.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/accessibility-responsive-performance-and-motion.md`
   - Use when: Front-end quality requires accessible interaction, adaptive layouts, field-measured performance, purposeful motion, and careful adoption of current trends.
 - Interface Patterns for Pages, Apps, Forms, and Checkout (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/interface-patterns-for-pages-apps-forms-and-checkout.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/interface-patterns-for-pages-apps-forms-and-checkout.md`
   - Use when: Reusable guidance for homepages, landing pages, SaaS dashboards, settings, pricing, product pages, forms, checkout, onboarding, navigation, and IA.
 - UI Visual Systems and Components (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/ui-visual-systems-and-components.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/ui-visual-systems-and-components.md`
   - Use when: Professional UI quality depends on visual hierarchy, layout, spacing, typography, accessible color, consistent components, and design tokens.
 - Front-End Design Strategy and Business Value (1/5, strategy / principles)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/front-end-design-strategy-and-business-value.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/front-end-design-strategy-and-business-value.md`
   - Use when: Front-end design is where brand promise, interaction logic, accessibility, performance, and business outcomes become visible and measurable.
 - UI UX Research, Testing, and Decision Framework (1/5, strategy / principles)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/ui-ux-research-testing-and-decision-framework.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/ui-ux-research-testing-and-decision-framework.md`
   - Use when: Use lifecycle research, observed behavior, IA testing, analytics, examples, and decision tables to make front-end choices evidence-based.
 
 ## Suggested Reading Order
@@ -45,13 +45,13 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- Color Design For Commercial Video: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
-- Youtube Educational Scriptwriting: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
+- Color Design For Commercial Video: `research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
+- Youtube Educational Scriptwriting: `research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
 
 ## Files
 
 - Accessibility, Responsive Design, Performance, and Motion
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/accessibility-responsive-performance-and-motion.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/accessibility-responsive-performance-and-motion.md`
   - Original file: `Front-End UI UX Design Playbook.md`
   - Summary: Front-end quality requires accessible interaction, adaptive layouts, field-measured performance, purposeful motion, and careful adoption of current trends.
   - Tags: accessibility, responsive-design, performance
@@ -62,7 +62,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `8e02d64f-407c-4fd1-92e6-0e62f4f94dfa`
   - Added: 2026-07-06T20:06:18.990Z
 - Front-End Design Strategy and Business Value
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/front-end-design-strategy-and-business-value.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/front-end-design-strategy-and-business-value.md`
   - Original file: `Front-End UI UX Design Playbook.md`
   - Summary: Front-end design is where brand promise, interaction logic, accessibility, performance, and business outcomes become visible and measurable.
   - Tags: front-end-design, ux-strategy, business-value
@@ -73,7 +73,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `8e02d64f-407c-4fd1-92e6-0e62f4f94dfa`
   - Added: 2026-07-06T20:06:18.991Z
 - Front-End UI UX Launch Checklist and Workflow
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/front-end-ui-ux-launch-checklist-and-workflow.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/front-end-ui-ux-launch-checklist-and-workflow.md`
   - Original file: `Front-End UI UX Design Playbook.md`
   - Summary: A practical final-review checklist and step-by-step workflow for designing, testing, launching, and improving high-quality front ends.
   - Tags: ui-checklist, ux-workflow, front-end-launch
@@ -84,7 +84,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `8e02d64f-407c-4fd1-92e6-0e62f4f94dfa`
   - Added: 2026-07-06T20:06:18.991Z
 - Interface Patterns for Pages, Apps, Forms, and Checkout
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/interface-patterns-for-pages-apps-forms-and-checkout.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/interface-patterns-for-pages-apps-forms-and-checkout.md`
   - Original file: `Front-End UI UX Design Playbook.md`
   - Summary: Reusable guidance for homepages, landing pages, SaaS dashboards, settings, pricing, product pages, forms, checkout, onboarding, navigation, and IA.
   - Tags: interface-patterns, saas-design, forms
@@ -95,7 +95,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `8e02d64f-407c-4fd1-92e6-0e62f4f94dfa`
   - Added: 2026-07-06T20:06:18.995Z
 - UI UX Research, Testing, and Decision Framework
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/ui-ux-research-testing-and-decision-framework.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/ui-ux-research-testing-and-decision-framework.md`
   - Original file: `Front-End UI UX Design Playbook.md`
   - Summary: Use lifecycle research, observed behavior, IA testing, analytics, examples, and decision tables to make front-end choices evidence-based.
   - Tags: ux-research, usability-testing, decision-framework
@@ -106,7 +106,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `8e02d64f-407c-4fd1-92e6-0e62f4f94dfa`
   - Added: 2026-07-06T20:06:18.995Z
 - UI Visual Systems and Components
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/ui-visual-systems-and-components.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/ui-visual-systems-and-components.md`
   - Original file: `Front-End UI UX Design Playbook.md`
   - Summary: Professional UI quality depends on visual hierarchy, layout, spacing, typography, accessible color, consistent components, and design tokens.
   - Tags: ui-design, design-systems, components
@@ -117,7 +117,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `8e02d64f-407c-4fd1-92e6-0e62f4f94dfa`
   - Added: 2026-07-06T20:06:18.996Z
 - UX Behavior and Conversion Principles
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/front-end-ui-ux-design/docs/ux-behavior-and-conversion-principles.md`
+  - Path: `research-brain/vault/folders/front-end-ui-ux-design/docs/ux-behavior-and-conversion-principles.md`
   - Original file: `Front-End UI UX Design Playbook.md`
   - Summary: Good UX starts with user goals, reduces avoidable thinking, uses clear feedback and navigation, and treats conversion as friction reduction rather than pressure.
   - Tags: ux-design, conversion, behavioral-design

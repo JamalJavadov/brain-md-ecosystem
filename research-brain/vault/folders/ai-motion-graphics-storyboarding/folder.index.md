@@ -1,6 +1,6 @@
 # Ai Motion Graphics Storyboarding - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding`
+Folder path: `research-brain/vault/folders/ai-motion-graphics-storyboarding`
 
 ## Purpose
 
@@ -16,19 +16,19 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - AI Video Storyboard Workflow, Prompts, and Review (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/ai-video-storyboard-workflow-prompts-and-review.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/ai-video-storyboard-workflow-prompts-and-review.md`
   - Use when: A production workflow for turning storyboards into Gemini/Veo prompt packets, with continuity rules, notation, templates, a SaaS example, and a pre-generation review checklist.
 - Storyboards as Control Documents for AI Motion Graphics (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboards-as-control-documents-for-ai-motion-graphics.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboards-as-control-documents-for-ai-motion-graphics.md`
   - Use when: A professional storyboard for AI motion graphics should control screen content, motion, camera behavior, text, and scene continuity before generation begins.
 - Storyboard Layouts, Safe Zones, and Composition (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-layouts-safe-zones-and-composition.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-layouts-safe-zones-and-composition.md`
   - Use when: Practical rules for choosing storyboard aspect ratios, safe zones, composition guides, and panel layouts for AI motion graphics and social video.
 - Storyboard Vocabulary and Frame Anatomy (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-vocabulary-and-frame-anatomy.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-vocabulary-and-frame-anatomy.md`
   - Use when: Defines the key pre-production terms and the fields a professional storyboard frame should include for AI motion-graphics work.
 - Motion Graphics and SaaS UI Storyboarding (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/motion-graphics-and-saas-ui-storyboarding.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/motion-graphics-and-saas-ui-storyboarding.md`
   - Use when: Storyboard rules for text animation, UI state changes, cursor behavior, charts, and SaaS product-video structures.
 
 ## Suggested Reading Order
@@ -41,15 +41,15 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- Codex Remotion Video Production: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
-- Color Design For Commercial Video: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
-- Product Video Lighting Standard: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
-- Blender Motion Graphics Production: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/folder.index.md`
+- Codex Remotion Video Production: `research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
+- Color Design For Commercial Video: `research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
+- Product Video Lighting Standard: `research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
+- Blender Motion Graphics Production: `research-brain/vault/folders/blender-motion-graphics-production/folder.index.md`
 
 ## Files
 
 - AI Video Storyboard Workflow, Prompts, and Review
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/ai-video-storyboard-workflow-prompts-and-review.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/ai-video-storyboard-workflow-prompts-and-review.md`
   - Original file: `Professional Storyboard Guide for AI Motion Graphics Video Production.md`
   - Summary: A production workflow for turning storyboards into Gemini/Veo prompt packets, with continuity rules, notation, templates, a SaaS example, and a pre-generation review checklist.
   - Tags: ai-video, prompting
@@ -60,7 +60,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55cd1458-1872-4e0a-b26f-57d6e0d0f2f5`
   - Added: 2026-07-06T19:53:35.512Z
 - Motion Graphics and SaaS UI Storyboarding
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/motion-graphics-and-saas-ui-storyboarding.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/motion-graphics-and-saas-ui-storyboarding.md`
   - Original file: `Professional Storyboard Guide for AI Motion Graphics Video Production.md`
   - Summary: Storyboard rules for text animation, UI state changes, cursor behavior, charts, and SaaS product-video structures.
   - Tags: motion-graphics, saas-video
@@ -71,7 +71,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55cd1458-1872-4e0a-b26f-57d6e0d0f2f5`
   - Added: 2026-07-06T19:53:35.514Z
 - Storyboard Layouts, Safe Zones, and Composition
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-layouts-safe-zones-and-composition.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-layouts-safe-zones-and-composition.md`
   - Original file: `Professional Storyboard Guide for AI Motion Graphics Video Production.md`
   - Summary: Practical rules for choosing storyboard aspect ratios, safe zones, composition guides, and panel layouts for AI motion graphics and social video.
   - Tags: composition, safe-zones
@@ -82,7 +82,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55cd1458-1872-4e0a-b26f-57d6e0d0f2f5`
   - Added: 2026-07-06T19:53:35.516Z
 - Storyboard Vocabulary and Frame Anatomy
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-vocabulary-and-frame-anatomy.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboard-vocabulary-and-frame-anatomy.md`
   - Original file: `Professional Storyboard Guide for AI Motion Graphics Video Production.md`
   - Summary: Defines the key pre-production terms and the fields a professional storyboard frame should include for AI motion-graphics work.
   - Tags: storyboarding, pre-production
@@ -93,7 +93,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55cd1458-1872-4e0a-b26f-57d6e0d0f2f5`
   - Added: 2026-07-06T19:53:35.517Z
 - Storyboards as Control Documents for AI Motion Graphics
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboards-as-control-documents-for-ai-motion-graphics.md`
+  - Path: `research-brain/vault/folders/ai-motion-graphics-storyboarding/docs/storyboards-as-control-documents-for-ai-motion-graphics.md`
   - Original file: `Professional Storyboard Guide for AI Motion Graphics Video Production.md`
   - Summary: A professional storyboard for AI motion graphics should control screen content, motion, camera behavior, text, and scene continuity before generation begins.
   - Tags: storyboarding, ai-video

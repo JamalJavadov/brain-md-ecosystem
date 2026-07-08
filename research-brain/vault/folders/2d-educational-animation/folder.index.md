@@ -1,6 +1,6 @@
 # 2d Educational Animation - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation`
+Folder path: `research-brain/vault/folders/2d-educational-animation`
 
 ## Purpose
 
@@ -16,19 +16,19 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - Educational Animation Production Workflow, Templates, and Quality Control (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/production-workflow-templates-and-quality-control.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/production-workflow-templates-and-quality-control.md`
   - Use when: A practical production workflow for 2D educational animation, including storyboard templates, scene timing structures, quality-control checks, case-study lessons, and a concise glossary.
 - Scripting and Story Structures for Educational Animation (1/5, strategy / principles)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/scripting-and-story-structures-for-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/scripting-and-story-structures-for-educational-animation.md`
   - Use when: Animation-specific script structures for retaining attention through relevance, a clear learning promise, segmented explanation, mini-payoffs, and topic-appropriate story frameworks.
 - Platform Analytics for Educational Animation (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/platform-analytics-for-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/platform-analytics-for-educational-animation.md`
   - Use when: How to adapt educational animation for YouTube, TikTok, Instagram Reels, courses, and company training, then use retention and learning metrics to improve future videos.
 - Learning Design for 2D Educational Animation (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/learning-design-for-2d-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/learning-design-for-2d-educational-animation.md`
   - Use when: Research-backed principles for designing 2D educational animation around cognitive load, attention guidance, segmentation, audience age, and meaningful use of motion.
 - Visual Motion, Audio, and Pacing for Educational Animation (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/visual-motion-audio-and-pacing-for-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/visual-motion-audio-and-pacing-for-educational-animation.md`
   - Use when: Execution rules for 2D educational animation visuals, motion, on-screen text, captions, narration, sound design, and pacing across short and long formats.
 
 ## Suggested Reading Order
@@ -41,15 +41,15 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- Short Form Video Growth Strategy: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/short-form-video-growth-strategy/folder.index.md`
-- Premium Product Sound Design: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/premium-product-sound-design/folder.index.md`
-- Youtube Educational Scriptwriting: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
-- Blender Motion Graphics Production: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/blender-motion-graphics-production/folder.index.md`
+- Short Form Video Growth Strategy: `research-brain/vault/folders/short-form-video-growth-strategy/folder.index.md`
+- Premium Product Sound Design: `research-brain/vault/folders/premium-product-sound-design/folder.index.md`
+- Youtube Educational Scriptwriting: `research-brain/vault/folders/youtube-educational-scriptwriting/folder.index.md`
+- Blender Motion Graphics Production: `research-brain/vault/folders/blender-motion-graphics-production/folder.index.md`
 
 ## Files
 
 - Educational Animation Production Workflow, Templates, and Quality Control
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/production-workflow-templates-and-quality-control.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/production-workflow-templates-and-quality-control.md`
   - Original file: `deep-research-report (6).md`
   - Summary: A practical production workflow for 2D educational animation, including storyboard templates, scene timing structures, quality-control checks, case-study lessons, and a concise glossary.
   - Tags: educational-animation, workflow, quality-control
@@ -60,7 +60,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55aed051-ec7c-4c71-8e31-9ba479e4d104`
   - Added: 2026-07-07T12:55:19.382Z
 - Learning Design for 2D Educational Animation
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/learning-design-for-2d-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/learning-design-for-2d-educational-animation.md`
   - Original file: `deep-research-report (6).md`
   - Summary: Research-backed principles for designing 2D educational animation around cognitive load, attention guidance, segmentation, audience age, and meaningful use of motion.
   - Tags: educational-animation, learning-design, cognitive-load
@@ -71,7 +71,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55aed051-ec7c-4c71-8e31-9ba479e4d104`
   - Added: 2026-07-07T12:55:19.376Z
 - Platform Analytics for Educational Animation
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/platform-analytics-for-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/platform-analytics-for-educational-animation.md`
   - Original file: `deep-research-report (6).md`
   - Summary: How to adapt educational animation for YouTube, TikTok, Instagram Reels, courses, and company training, then use retention and learning metrics to improve future videos.
   - Tags: educational-animation, analytics, platform-strategy
@@ -82,7 +82,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55aed051-ec7c-4c71-8e31-9ba479e4d104`
   - Added: 2026-07-07T12:55:19.379Z
 - Scripting and Story Structures for Educational Animation
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/scripting-and-story-structures-for-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/scripting-and-story-structures-for-educational-animation.md`
   - Original file: `deep-research-report (6).md`
   - Summary: Animation-specific script structures for retaining attention through relevance, a clear learning promise, segmented explanation, mini-payoffs, and topic-appropriate story frameworks.
   - Tags: educational-animation, scriptwriting, story-structure
@@ -93,7 +93,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `55aed051-ec7c-4c71-8e31-9ba479e4d104`
   - Added: 2026-07-07T12:55:19.386Z
 - Visual Motion, Audio, and Pacing for Educational Animation
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/2d-educational-animation/docs/visual-motion-audio-and-pacing-for-educational-animation.md`
+  - Path: `research-brain/vault/folders/2d-educational-animation/docs/visual-motion-audio-and-pacing-for-educational-animation.md`
   - Original file: `deep-research-report (6).md`
   - Summary: Execution rules for 2D educational animation visuals, motion, on-screen text, captions, narration, sound design, and pacing across short and long formats.
   - Tags: educational-animation, motion-design, sound-design

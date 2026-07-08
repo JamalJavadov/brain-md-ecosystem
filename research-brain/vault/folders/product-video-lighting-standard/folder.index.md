@@ -1,6 +1,6 @@
 # Product Video Lighting Standard - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard`
+Folder path: `research-brain/vault/folders/product-video-lighting-standard`
 
 ## Purpose
 
@@ -16,19 +16,19 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - Product Lighting Shot Recipes and Prompt Templates (1/5, template / reusable pattern)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-shot-recipes-and-prompts.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-shot-recipes-and-prompts.md`
   - Use when: Reusable lighting recipes, model-facing prompt templates, and prompt fragments for premium package, kraft, print, perfume, watch, coffee, beauty, tech, logo, dark luxury, and white studio shots.
 - AI and 3D Product Lighting Workflow (1/5, template / reusable pattern)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/ai-and-3d-product-lighting-workflow.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/ai-and-3d-product-lighting-workflow.md`
   - Use when: Workflow rules for realistic CGI and AI product lighting, including motion continuity, Blender lighting practice, Flow and Veo prompting, vertical delivery, and post-production checks.
 - Studio Product Lighting Principles (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/studio-product-lighting-principles.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/studio-product-lighting-principles.md`
   - Use when: Core principles for premium product lighting: motivated direction, hierarchy, consistency, controlled contrast, and practical use of studio light roles and modifiers.
 - Material-Specific Product Lighting (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/material-specific-product-lighting.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/material-specific-product-lighting.md`
   - Use when: Lighting strategies for paper, kraft, glass, perfume, cosmetics, metal, watches, tech products, matte plastic, fabric, leather, and other tactile materials.
 - Product Lighting Checklists and Quality Control (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-checklists-and-quality-control.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-checklists-and-quality-control.md`
   - Use when: Pre-production, 3D scene, AI prompt, material, continuity, and final quality-control checklists for premium product lighting.
 
 ## Suggested Reading Order
@@ -41,15 +41,15 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- Product Video Material Realism: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-material-realism/folder.index.md`
-- Professional 3d Motion Visuals: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/folder.index.md`
-- Color Design For Commercial Video: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
-- Premium Product Sound Design: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/premium-product-sound-design/folder.index.md`
+- Product Video Material Realism: `research-brain/vault/folders/product-video-material-realism/folder.index.md`
+- Professional 3d Motion Visuals: `research-brain/vault/folders/professional-3d-motion-visuals/folder.index.md`
+- Color Design For Commercial Video: `research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
+- Premium Product Sound Design: `research-brain/vault/folders/premium-product-sound-design/folder.index.md`
 
 ## Files
 
 - AI and 3D Product Lighting Workflow
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/ai-and-3d-product-lighting-workflow.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/ai-and-3d-product-lighting-workflow.md`
   - Original file: `Professional Lighting Standard for Realistic 3D Product and AI Video.md`
   - Summary: Workflow rules for realistic CGI and AI product lighting, including motion continuity, Blender lighting practice, Flow and Veo prompting, vertical delivery, and post-production checks.
   - Tags: ai-video, 3d-lighting, product-video
@@ -60,7 +60,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `4dbda99f-24bd-468c-ac2a-08b36d51b025`
   - Added: 2026-07-06T19:46:42.947Z
 - Material-Specific Product Lighting
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/material-specific-product-lighting.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/material-specific-product-lighting.md`
   - Original file: `Professional Lighting Standard for Realistic 3D Product and AI Video.md`
   - Summary: Lighting strategies for paper, kraft, glass, perfume, cosmetics, metal, watches, tech products, matte plastic, fabric, leather, and other tactile materials.
   - Tags: product-lighting, material-realism, ai-video
@@ -71,7 +71,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `4dbda99f-24bd-468c-ac2a-08b36d51b025`
   - Added: 2026-07-06T19:46:42.949Z
 - Product Lighting Checklists and Quality Control
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-checklists-and-quality-control.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-checklists-and-quality-control.md`
   - Original file: `Professional Lighting Standard for Realistic 3D Product and AI Video.md`
   - Summary: Pre-production, 3D scene, AI prompt, material, continuity, and final quality-control checklists for premium product lighting.
   - Tags: quality-control, product-lighting, ai-video
@@ -82,7 +82,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `4dbda99f-24bd-468c-ac2a-08b36d51b025`
   - Added: 2026-07-06T19:46:42.950Z
 - Product Lighting Shot Recipes and Prompt Templates
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-shot-recipes-and-prompts.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/product-lighting-shot-recipes-and-prompts.md`
   - Original file: `Professional Lighting Standard for Realistic 3D Product and AI Video.md`
   - Summary: Reusable lighting recipes, model-facing prompt templates, and prompt fragments for premium package, kraft, print, perfume, watch, coffee, beauty, tech, logo, dark luxury, and white studio shots.
   - Tags: prompting, product-lighting, ai-video
@@ -93,7 +93,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `4dbda99f-24bd-468c-ac2a-08b36d51b025`
   - Added: 2026-07-06T19:46:42.951Z
 - Studio Product Lighting Principles
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/docs/studio-product-lighting-principles.md`
+  - Path: `research-brain/vault/folders/product-video-lighting-standard/docs/studio-product-lighting-principles.md`
   - Original file: `Professional Lighting Standard for Realistic 3D Product and AI Video.md`
   - Summary: Core principles for premium product lighting: motivated direction, hierarchy, consistency, controlled contrast, and practical use of studio light roles and modifiers.
   - Tags: product-lighting, commercial-video, studio-lighting

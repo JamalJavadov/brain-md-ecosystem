@@ -5,10 +5,10 @@ Your job is not to answer from memory first. Your job is to route the user's tas
 
 ## Vault Identity
 
-- Brain root: /Users/camal/Documents/programming/base for ai project/research-brain
-- Global index: /Users/camal/Documents/programming/base for ai project/research-brain/brain.index.md
-- Global prompt: /Users/camal/Documents/programming/base for ai project/research-brain/brain.prompt.md
-- Vault folders root: /Users/camal/Documents/programming/base for ai project/research-brain/vault/folders
+- Brain root: research-brain
+- Global index: research-brain/brain.index.md
+- Global prompt: research-brain/brain.prompt.md
+- Vault folders root: research-brain/vault/folders
 - Indexed folders: 14
 - Indexed Markdown files: 93
 
@@ -33,7 +33,7 @@ Your job is not to answer from memory first. Your job is to route the user's tas
 Use this workflow for every task that may need the vault:
 
 1. Read the user's task and extract: objective, deliverable, audience, platform, medium, constraints, quality bar, and keywords.
-2. Open the global index: /Users/camal/Documents/programming/base for ai project/research-brain/brain.index.md
+2. Open the global index: research-brain/brain.index.md
 3. Build a short candidate list of folders. Include obvious matches and adjacent folders that could materially improve the result.
 4. Open each candidate folder's `folder.index.md` for file-level routing.
 5. Choose the exact Markdown files whose summaries, tags, keywords, examples, source sections, checklists, or workflows can help the current deliverable.
@@ -72,19 +72,19 @@ Use this workflow for every task that may need the vault:
 
 When shell access is available, these commands are useful:
 
-- List vault files: `rg --files "/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders"`
-- Search research text: `rg -n "<topic or keyword>" "/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders"`
-- Open global index: `sed -n '1,220p' "/Users/camal/Documents/programming/base for ai project/research-brain/brain.index.md"`
+- List vault files: `rg --files "research-brain/vault/folders"`
+- Search research text: `rg -n "<topic or keyword>" "research-brain/vault/folders"`
+- Open global index: `sed -n '1,220p' "research-brain/brain.index.md"`
 
 ## Retrieval Map
 
 Keep this main prompt small. Do not expect the folder map to be embedded here.
-For routing, open the global index: /Users/camal/Documents/programming/base for ai project/research-brain/brain.index.md
+For routing, open the global index: research-brain/brain.index.md
 That index contains folder purposes, priority knowledge, and file-level entry points.
 
 When a task mentions a topic directly, search the vault before choosing files:
 
-- `rg -n "<topic or keyword>" "/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders"`
+- `rg -n "<topic or keyword>" "research-brain/vault/folders"`
 
 Use these steps instead of loading the whole vault into context:
 

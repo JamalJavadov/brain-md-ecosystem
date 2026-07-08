@@ -1,6 +1,6 @@
 # Color Design For Commercial Video - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video`
+Folder path: `research-brain/vault/folders/color-design-for-commercial-video`
 
 ## Purpose
 
@@ -16,19 +16,19 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - Commercial Video Palette Library and Review Workflow (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/commercial-video-palette-library-and-review-workflow.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/commercial-video-palette-library-and-review-workflow.md`
   - Use when: Reusable palette templates, a five-scene vertical video structure, team color brief workflow, mini case studies, and final review rules for premium commercial videos.
 - AI Video Color Prompting and Delivery Workflow (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/ai-video-color-prompting-and-delivery-workflow.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/ai-video-color-prompting-and-delivery-workflow.md`
   - Use when: Color-specific prompting practices for AI-generated commercial video, including common failure modes, prompt fragments, a master template, and delivery constraints.
 - Color Systems for 3D Motion, Lighting, and Readability (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/color-systems-for-3d-motion-lighting-and-readability.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/color-systems-for-3d-motion-lighting-and-readability.md`
   - Use when: How to build commercial color systems across 3D materials, lighting, camera movement, grading, text overlays, accessibility, and premium color combinations.
 - Color Psychology and Business Palette Strategy (1/5, strategy / principles)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/color-psychology-and-business-palette-strategy.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/color-psychology-and-business-palette-strategy.md`
   - Use when: A practical guide to using color psychology in commercial video without treating colors as universal symbols, with category-specific palette guidance.
 - Color Theory Foundations for Motion and 3D Commercials (1/5, reference knowledge)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/color-theory-foundations-for-motion-and-3d.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/color-theory-foundations-for-motion-and-3d.md`
   - Use when: Practical color theory concepts for motion design and 3D advertising, focused on hierarchy, harmony, palette balance, and commercial readability.
 
 ## Suggested Reading Order
@@ -41,15 +41,15 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- Product Video Lighting Standard: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
-- Ai Motion Graphics Storyboarding: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
-- Codex Remotion Video Production: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
-- Professional 3d Motion Visuals: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/folder.index.md`
+- Product Video Lighting Standard: `research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
+- Ai Motion Graphics Storyboarding: `research-brain/vault/folders/ai-motion-graphics-storyboarding/folder.index.md`
+- Codex Remotion Video Production: `research-brain/vault/folders/codex-remotion-video-production/folder.index.md`
+- Professional 3d Motion Visuals: `research-brain/vault/folders/professional-3d-motion-visuals/folder.index.md`
 
 ## Files
 
 - AI Video Color Prompting and Delivery Workflow
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/ai-video-color-prompting-and-delivery-workflow.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/ai-video-color-prompting-and-delivery-workflow.md`
   - Original file: `Color Harmony and Color Psychology for AI Motion Design & 3D Commercial Videos.md`
   - Summary: Color-specific prompting practices for AI-generated commercial video, including common failure modes, prompt fragments, a master template, and delivery constraints.
   - Tags: ai-video, prompting, commercial-video, color-direction
@@ -60,7 +60,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `b327b5ba-ae1d-4580-82fa-8fc2858ed58e`
   - Added: 2026-07-06T14:23:56.755Z
 - Color Psychology and Business Palette Strategy
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/color-psychology-and-business-palette-strategy.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/color-psychology-and-business-palette-strategy.md`
   - Original file: `Color Harmony and Color Psychology for AI Motion Design & 3D Commercial Videos.md`
   - Summary: A practical guide to using color psychology in commercial video without treating colors as universal symbols, with category-specific palette guidance.
   - Tags: color-psychology, branding, commercial-video
@@ -71,7 +71,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `b327b5ba-ae1d-4580-82fa-8fc2858ed58e`
   - Added: 2026-07-06T14:23:56.756Z
 - Color Systems for 3D Motion, Lighting, and Readability
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/color-systems-for-3d-motion-lighting-and-readability.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/color-systems-for-3d-motion-lighting-and-readability.md`
   - Original file: `Color Harmony and Color Psychology for AI Motion Design & 3D Commercial Videos.md`
   - Summary: How to build commercial color systems across 3D materials, lighting, camera movement, grading, text overlays, accessibility, and premium color combinations.
   - Tags: 3d-rendering, lighting, accessibility, motion-design
@@ -82,7 +82,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `b327b5ba-ae1d-4580-82fa-8fc2858ed58e`
   - Added: 2026-07-06T14:23:56.758Z
 - Color Theory Foundations for Motion and 3D Commercials
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/color-theory-foundations-for-motion-and-3d.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/color-theory-foundations-for-motion-and-3d.md`
   - Original file: `Color Harmony and Color Psychology for AI Motion Design & 3D Commercial Videos.md`
   - Summary: Practical color theory concepts for motion design and 3D advertising, focused on hierarchy, harmony, palette balance, and commercial readability.
   - Tags: color-theory, motion-design, 3d-commercials
@@ -93,7 +93,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `b327b5ba-ae1d-4580-82fa-8fc2858ed58e`
   - Added: 2026-07-06T14:23:56.759Z
 - Commercial Video Palette Library and Review Workflow
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/docs/commercial-video-palette-library-and-review-workflow.md`
+  - Path: `research-brain/vault/folders/color-design-for-commercial-video/docs/commercial-video-palette-library-and-review-workflow.md`
   - Original file: `Color Harmony and Color Psychology for AI Motion Design & 3D Commercial Videos.md`
   - Summary: Reusable palette templates, a five-scene vertical video structure, team color brief workflow, mini case studies, and final review rules for premium commercial videos.
   - Tags: palette-library, video-workflow, commercial-production

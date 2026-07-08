@@ -1,6 +1,6 @@
 # Professional 3d Motion Visuals - Folder Index
 
-Folder path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals`
+Folder path: `research-brain/vault/folders/professional-3d-motion-visuals`
 
 ## Purpose
 
@@ -16,19 +16,19 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 ## Best Entry Points
 
 - Professional Studio Systems Versus Beautiful AI Renders (1/5, workflow / process)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/professional-studio-systems-vs-ai-renders.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/professional-studio-systems-vs-ai-renders.md`
   - Use when: Explains the difference between an attractive AI render and professional commercial design: scalable visual systems, brand strategy, material logic, motion rules, typography, and previsualisation.
 - AI-Looking Visual Failure Modes (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/ai-looking-visual-failure-modes.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/ai-looking-visual-failure-modes.md`
   - Use when: A diagnostic guide to why AI-generated 3D and motion visuals often feel cheap or generic, with studio-grade corrections for materials, lighting, typography, composition, and brand strategy.
 - ARTIZ.AZ Professional Visual Standard and QC (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/artiz-az-professional-visual-standard-and-qc.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/artiz-az-professional-visual-standard-and-qc.md`
   - Use when: A reusable ARTIZ.AZ visual standard with approval gates, scoring rubric, colour and material direction, logo rules, motion rules, reel structure, anti-cliche rules, and pipeline order.
 - Prompt Engineering and Anti-Cliche Patterns for AI Video (1/5, template / reusable pattern)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/prompt-engineering-and-anti-cliche-patterns-for-ai-video.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/prompt-engineering-and-anti-cliche-patterns-for-ai-video.md`
   - Use when: Prompting rules and before/after examples for turning generic AI-looking product, logo, print, packaging, reel, and service-video prompts into controlled studio-style instructions.
 - Production Standards for Materials, Lighting, Camera, Motion, and Type (1/5, quality gate / diagnostic)
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/production-standards-for-materials-lighting-camera-motion-and-type.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/production-standards-for-materials-lighting-camera-motion-and-type.md`
   - Use when: A practical production checklist for converting taste into repeatable studio standards across PBR materials, motivated lighting, camera hierarchy, motion cadence, and typography.
 
 ## Suggested Reading Order
@@ -41,15 +41,15 @@ Do not use this folder as the only context when the task clearly needs adjacent 
 
 ## Related Folders
 
-- Product Video Lighting Standard: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
-- Color Design For Commercial Video: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
-- Premium Product Sound Design: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/premium-product-sound-design/folder.index.md`
-- Product Video Material Realism: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/product-video-material-realism/folder.index.md`
+- Product Video Lighting Standard: `research-brain/vault/folders/product-video-lighting-standard/folder.index.md`
+- Color Design For Commercial Video: `research-brain/vault/folders/color-design-for-commercial-video/folder.index.md`
+- Premium Product Sound Design: `research-brain/vault/folders/premium-product-sound-design/folder.index.md`
+- Product Video Material Realism: `research-brain/vault/folders/product-video-material-realism/folder.index.md`
 
 ## Files
 
 - AI-Looking Visual Failure Modes
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/ai-looking-visual-failure-modes.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/ai-looking-visual-failure-modes.md`
   - Original file: `AI_vs_Professional_3D_Motion_Visuals_Research.md`
   - Summary: A diagnostic guide to why AI-generated 3D and motion visuals often feel cheap or generic, with studio-grade corrections for materials, lighting, typography, composition, and brand strategy.
   - Tags: ai-video, visual-quality, 3d-motion
@@ -60,7 +60,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `f5ee1d4a-1b1e-40d4-8e10-f8051b94679f`
   - Added: 2026-07-06T19:50:15.063Z
 - ARTIZ.AZ Professional Visual Standard and QC
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/artiz-az-professional-visual-standard-and-qc.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/artiz-az-professional-visual-standard-and-qc.md`
   - Original file: `AI_vs_Professional_3D_Motion_Visuals_Research.md`
   - Summary: A reusable ARTIZ.AZ visual standard with approval gates, scoring rubric, colour and material direction, logo rules, motion rules, reel structure, anti-cliche rules, and pipeline order.
   - Tags: artiz-az, quality-control, visual-standard
@@ -71,7 +71,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `f5ee1d4a-1b1e-40d4-8e10-f8051b94679f`
   - Added: 2026-07-06T19:50:15.065Z
 - Production Standards for Materials, Lighting, Camera, Motion, and Type
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/production-standards-for-materials-lighting-camera-motion-and-type.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/production-standards-for-materials-lighting-camera-motion-and-type.md`
   - Original file: `AI_vs_Professional_3D_Motion_Visuals_Research.md`
   - Summary: A practical production checklist for converting taste into repeatable studio standards across PBR materials, motivated lighting, camera hierarchy, motion cadence, and typography.
   - Tags: production-standard, 3d-motion, typography
@@ -82,7 +82,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `f5ee1d4a-1b1e-40d4-8e10-f8051b94679f`
   - Added: 2026-07-06T19:50:15.066Z
 - Professional Studio Systems Versus Beautiful AI Renders
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/professional-studio-systems-vs-ai-renders.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/professional-studio-systems-vs-ai-renders.md`
   - Original file: `AI_vs_Professional_3D_Motion_Visuals_Research.md`
   - Summary: Explains the difference between an attractive AI render and professional commercial design: scalable visual systems, brand strategy, material logic, motion rules, typography, and previsualisation.
   - Tags: commercial-design, art-direction, 3d-motion
@@ -93,7 +93,7 @@ Do not use this folder as the only context when the task clearly needs adjacent 
   - Source import ID: `f5ee1d4a-1b1e-40d4-8e10-f8051b94679f`
   - Added: 2026-07-06T19:50:15.067Z
 - Prompt Engineering and Anti-Cliche Patterns for AI Video
-  - Path: `/Users/camal/Documents/programming/base for ai project/research-brain/vault/folders/professional-3d-motion-visuals/docs/prompt-engineering-and-anti-cliche-patterns-for-ai-video.md`
+  - Path: `research-brain/vault/folders/professional-3d-motion-visuals/docs/prompt-engineering-and-anti-cliche-patterns-for-ai-video.md`
   - Original file: `AI_vs_Professional_3D_Motion_Visuals_Research.md`
   - Summary: Prompting rules and before/after examples for turning generic AI-looking product, logo, print, packaging, reel, and service-video prompts into controlled studio-style instructions.
   - Tags: prompt-engineering, ai-video, commercial-video
