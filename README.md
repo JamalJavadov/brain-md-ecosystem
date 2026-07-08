@@ -41,22 +41,33 @@ The app stores the research brain under:
 research-brain/
 ```
 
-Important generated files:
+Git-synced source files:
+
+- `research-brain/vault/folders/<folder-slug>/folder.md`
+- `research-brain/vault/folders/<folder-slug>/docs/*.md`
+
+Markdown files are the durable source of truth and are safe to sync through Git.
+Each folder stores stable metadata in `folder.md`, and each knowledge file
+stores its own metadata in frontmatter, including title, summary, tags,
+keywords, importance, and source information.
+
+Local generated/cache files:
 
 - `research-brain/brain.index.md`
 - `research-brain/brain.prompt.md`
 - `research-brain/vault/folders/<folder-slug>/folder.index.md`
 - `research-brain/vault/folders/<folder-slug>/folder.prompt.md`
-- `research-brain/vault/folders/<folder-slug>/docs/*.md`
-- `research-brain/imports/archive/`
+- `research-brain/imports/`
+- `research-brain/brain.sqlite`
 
-Markdown files are the durable source of truth and are safe to sync through Git.
-Each knowledge file stores its important metadata in frontmatter, including
-title, summary, tags, keywords, importance, and source information. SQLite
-`research-brain/brain.sqlite` is only a local rebuildable index/cache for fast
-UI browsing, duplicate checks, and search, so it is intentionally ignored by
-Git. When the app starts, it scans the Markdown vault and rebuilds/syncs the
-local SQLite index from the files on disk.
+These generated/cache files are intentionally ignored by Git. When the app
+starts, it scans the Markdown vault and rebuilds/syncs the local SQLite index,
+global prompt, global index, folder prompts, and folder indexes from the files
+on disk. This keeps two-computer syncing focused on independent Markdown source
+files instead of generated aggregate files that would otherwise cause conflicts.
+Newly imported knowledge files use content-hash filename suffixes so two
+computers can import similarly named material into the same folder without
+usually creating a Git add/add conflict.
 
 ## Current Features
 

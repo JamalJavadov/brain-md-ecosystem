@@ -6,3 +6,7 @@ dist/
 npm-debug.log*
 research-brain/brain.sqlite*
 research-brain/imports/
+research-brain/brain.index.md
+research-brain/brain.prompt.md
+research-brain/vault/folders/*/folder.index.md
+research-brain/vault/folders/*/folder.prompt.md

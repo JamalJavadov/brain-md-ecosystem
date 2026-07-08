@@ -95,6 +95,13 @@ function safeFilename(value: string) {
   return `${base}.md`;
 }
 
+function hashedStoredName(value: string, hash: string) {
+  const parsed = path.parse(safeFilename(value));
+  const shortHash = hash.slice(0, 8);
+  if (new RegExp(`-${shortHash}$`).test(parsed.name)) return `${parsed.name}.md`;
+  return `${parsed.name}-${shortHash}.md`;
+}
+
 function ensureDir(dir: string) {
   fs.mkdirSync(dir, { recursive: true });
 }
@@ -114,6 +121,10 @@ function folderRoot(folder: Folder) {
 
 function folderDocsDir(folder: Folder) {
   return path.join(folderRoot(folder), "docs");
+}
+
+function folderMetadataPath(folder: Folder) {
+  return path.join(folderRoot(folder), "folder.md");
 }
 
 function repoRelativePath(filePath: string) {
@@ -358,6 +369,7 @@ function createFolderRecord(name: string, description: string) {
     "INSERT INTO folders (id, slug, name, description, is_inbox, created_at) VALUES (?, ?, ?, ?, ?, ?)"
   ).run(folder.id, folder.slug, folder.name, folder.description, folder.is_inbox, folder.created_at);
   ensureDir(folderDocsDir(folder));
+  writeFolderMetadata(folder);
   return folder;
 }
 
@@ -390,7 +402,7 @@ function createFileRecord(
   const duplicate = getFileByContentHash(fileContentHash);
   if (duplicate) return duplicate;
 
-  const storedName = uniqueStoredName(folder, params.displayName);
+  const storedName = uniqueStoredName(folder, hashedStoredName(params.displayName, fileContentHash));
   const destination = path.join(folderDocsDir(folder), storedName);
   writeText(destination, contentWithMetadata);
 
@@ -441,8 +453,10 @@ function createFileRecord(
 function ensureFolderFiles() {
   for (const folder of allFolders()) {
     ensureDir(folderDocsDir(folder));
+    const metadataPath = folderMetadataPath(folder);
     const indexPath = path.join(folderRoot(folder), "folder.index.md");
     const promptPath = path.join(folderRoot(folder), "folder.prompt.md");
+    if (!fs.existsSync(metadataPath)) writeFolderMetadata(folder);
     if (!fs.existsSync(indexPath)) writeText(indexPath, buildFolderIndex(folder));
     if (!fs.existsSync(promptPath)) writeText(promptPath, buildFolderPrompt(folder));
   }
@@ -455,6 +469,25 @@ function parseStringArray(raw: string) {
   } catch {
     return [];
   }
+}
+
+function buildFolderMetadata(folder: Folder) {
+  const description = folder.description || `Research related to ${folder.name}.`;
+  return [
+    "---",
+    `title: ${JSON.stringify(folder.name)}`,
+    `description: ${JSON.stringify(description)}`,
+    "---",
+    "",
+    `# ${folder.name}`,
+    "",
+    description,
+    ""
+  ].join("\n");
+}
+
+function writeFolderMetadata(folder: Folder) {
+  writeText(folderMetadataPath(folder), buildFolderMetadata(folder));
 }
 
 function uniqueNonEmpty(items: string[], limit = 12) {
@@ -966,6 +999,25 @@ function parseMarkdownMetadata(filePath: string, content: string): MarkdownMetad
 }
 
 function parseFolderMetadataFromDisk(slug: string, folderPath: string, docs: string[]) {
+  const metadataPath = path.join(folderPath, "folder.md");
+  const metadataContent = readTextIfExists(metadataPath);
+  if (metadataContent) {
+    const parsed = splitFrontmatter(metadataContent);
+    const heading = parsed.body.match(/^#\s+(.+)$/m)?.[1]?.trim();
+    const firstParagraph =
+      parsed.body
+        .replace(/^#.*$/gm, "")
+        .split(/\n\s*\n/)
+        .map((part) => part.trim())
+        .find(Boolean) ?? "";
+    const name = (parsed.metadata.title || heading || titleFromSlug(slug)).replace(/^["']|["']$/g, "");
+    const description = (parsed.metadata.description || firstParagraph || `Research related to ${name}.`).replace(
+      /^["']|["']$/g,
+      ""
+    );
+    return { name, description };
+  }
+
   const indexPath = path.join(folderPath, "folder.index.md");
   const indexContent = readTextIfExists(indexPath);
   const heading = indexContent.match(/^#\s+(.+?)(?:\s+-\s+Folder Index)?\s*$/m)?.[1]?.trim();
@@ -1028,7 +1080,7 @@ function syncVaultFromDisk(importId = "", originalName = "") {
     }
 
     ensureDir(folderDocsDir(folder));
-    for (const docPath of docs) {
+    for (let docPath of docs) {
       const content = readTextIfExists(docPath);
       const fileContentHash = contentHash(content);
       const metadata = parseMarkdownMetadata(docPath, content);
@@ -1080,6 +1132,16 @@ function syncVaultFromDisk(importId = "", originalName = "") {
         );
         refreshSearchForFile(updated, folder);
       } else {
+        if (importId) {
+          const requestedName = metadata.title || path.parse(docPath).name;
+          const storedNameWithHash = uniqueStoredName(folder, hashedStoredName(requestedName, fileContentHash), docPath);
+          const hashedPath = path.join(folderDocsDir(folder), storedNameWithHash);
+          if (hashedPath !== docPath) {
+            fs.renameSync(docPath, hashedPath);
+            docPath = hashedPath;
+          }
+        }
+
         const researchFile: ResearchFile = {
           id: randomUUID(),
           folder_id: folder.id,
@@ -1481,6 +1543,7 @@ app.patch("/api/folders/:id", (req, res) => {
 
   const updatedFolder: Folder = { ...folder, name, description };
   db.prepare("UPDATE folders SET name = ?, description = ? WHERE id = ?").run(name, description, folder.id);
+  writeFolderMetadata(updatedFolder);
   for (const file of filesForFolder(folder.id)) {
     refreshSearchForFile(file, updatedFolder);
   }
