@@ -253,12 +253,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNa
         completionHandler: @escaping ([URL]?) -> Void
     ) {
         let panel = NSOpenPanel()
-        panel.title = "Choose a Markdown File"
+        panel.title = "Choose Markdown Files"
         panel.prompt = "Choose"
-        panel.message = "Select the Markdown document to import."
+        panel.message = "Select one or more Markdown documents to import."
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
-        panel.allowsMultipleSelection = false
+        panel.allowsMultipleSelection = true
         panel.resolvesAliases = true
         panel.allowedContentTypes = [UTType(filenameExtension: "md") ?? .plainText]
 

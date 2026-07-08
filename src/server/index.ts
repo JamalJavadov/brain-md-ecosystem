@@ -2,7 +2,7 @@ import cors from "cors";
 import express from "express";
 import fs from "node:fs";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { spawn } from "node:child_process";
 import { DatabaseSync } from "node:sqlite";
 import multer from "multer";
@@ -43,6 +43,19 @@ type ResearchFile = {
   importance: number;
   source_import_id: string;
   source_section: string;
+  content_hash: string;
+};
+
+type ImportRecord = {
+  id: string;
+  original_name: string;
+  source_path: string;
+  document_title: string;
+  document_summary: string;
+  discarded_summary: string;
+  segment_count: number;
+  created_at: string;
+  source_hash: string;
 };
 
 type MarkdownMetadata = {
@@ -126,6 +139,26 @@ function uniqueFolderSlug(requestedName: string) {
   return slug;
 }
 
+function normalizeMarkdownForDedup(content: string) {
+  const withoutFrontmatter = content.replace(/^\uFEFF?---\s*\r?\n[\s\S]*?\r?\n---\s*(?:\r?\n)?/, "");
+  return withoutFrontmatter
+    .replace(/\r\n?/g, "\n")
+    .split("\n")
+    .map((line) => line.trimEnd())
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function hashText(content: string) {
+  return createHash("sha256").update(content, "utf8").digest("hex");
+}
+
+function contentHash(content: string) {
+  const normalized = normalizeMarkdownForDedup(content);
+  return hashText(normalized || content);
+}
+
 ensureDir(BRAIN_DIR);
 ensureDir(VAULT_DIR);
 ensureDir(FOLDERS_DIR);
@@ -151,7 +184,8 @@ db.exec(`
     stored_name TEXT NOT NULL,
     path TEXT NOT NULL UNIQUE,
     size_bytes INTEGER NOT NULL,
-    created_at TEXT NOT NULL
+    created_at TEXT NOT NULL,
+    content_hash TEXT NOT NULL DEFAULT ''
   );
 
   CREATE TABLE IF NOT EXISTS imports (
@@ -162,7 +196,8 @@ db.exec(`
     document_summary TEXT NOT NULL,
     discarded_summary TEXT NOT NULL DEFAULT '',
     segment_count INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL
+    created_at TEXT NOT NULL,
+    source_hash TEXT NOT NULL DEFAULT ''
   );
 
   CREATE VIRTUAL TABLE IF NOT EXISTS file_search USING fts5(
@@ -174,11 +209,19 @@ db.exec(`
   );
 `);
 
-function ensureFileColumn(name: string, definition: string) {
-  const columns = db.prepare("PRAGMA table_info(files)").all() as Array<{ name: string }>;
+function ensureTableColumn(table: "files" | "imports", name: string, definition: string) {
+  const columns = db.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>;
   if (!columns.some((column) => column.name === name)) {
-    db.exec(`ALTER TABLE files ADD COLUMN ${name} ${definition}`);
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${name} ${definition}`);
   }
+}
+
+function ensureFileColumn(name: string, definition: string) {
+  ensureTableColumn("files", name, definition);
+}
+
+function ensureImportColumn(name: string, definition: string) {
+  ensureTableColumn("imports", name, definition);
 }
 
 ensureFileColumn("summary", "TEXT NOT NULL DEFAULT ''");
@@ -187,6 +230,13 @@ ensureFileColumn("keywords_json", "TEXT NOT NULL DEFAULT '[]'");
 ensureFileColumn("importance", "INTEGER NOT NULL DEFAULT 3");
 ensureFileColumn("source_import_id", "TEXT NOT NULL DEFAULT ''");
 ensureFileColumn("source_section", "TEXT NOT NULL DEFAULT ''");
+ensureFileColumn("content_hash", "TEXT NOT NULL DEFAULT ''");
+ensureImportColumn("source_hash", "TEXT NOT NULL DEFAULT ''");
+
+db.exec(`
+  CREATE INDEX IF NOT EXISTS files_content_hash_idx ON files(content_hash);
+  CREATE INDEX IF NOT EXISTS imports_source_hash_idx ON imports(source_hash);
+`);
 
 function allFolders() {
   return db.prepare("SELECT * FROM folders ORDER BY name ASC").all() as Folder[];
@@ -204,10 +254,30 @@ function getFile(id: string) {
   return db.prepare("SELECT * FROM files WHERE id = ?").get(id) as ResearchFile | undefined;
 }
 
+function getFileByContentHash(hash: string, exceptPath = "") {
+  if (!hash) return undefined;
+  return db
+    .prepare("SELECT * FROM files WHERE content_hash = ? AND path != ? ORDER BY created_at ASC LIMIT 1")
+    .get(hash, exceptPath) as ResearchFile | undefined;
+}
+
+function getImportBySourceHash(hash: string) {
+  if (!hash) return undefined;
+  return db
+    .prepare("SELECT * FROM imports WHERE source_hash = ? ORDER BY created_at ASC LIMIT 1")
+    .get(hash) as ImportRecord | undefined;
+}
+
 function filesForFolder(folderId: string) {
   return db
     .prepare("SELECT * FROM files WHERE folder_id = ? ORDER BY display_name ASC")
     .all(folderId) as ResearchFile[];
+}
+
+function filesForImport(importId: string) {
+  return db
+    .prepare("SELECT * FROM files WHERE source_import_id = ? ORDER BY created_at ASC")
+    .all(importId) as ResearchFile[];
 }
 
 function allFiles() {
@@ -245,6 +315,10 @@ function createFileRecord(
     sourceSection?: string;
   }
 ) {
+  const fileContentHash = contentHash(params.content);
+  const duplicate = getFileByContentHash(fileContentHash);
+  if (duplicate) return duplicate;
+
   const storedName = uniqueStoredName(folder, params.displayName);
   const destination = path.join(folderDocsDir(folder), storedName);
   writeText(destination, params.content);
@@ -263,14 +337,15 @@ function createFileRecord(
     keywords_json: JSON.stringify(params.keywords ?? []),
     importance: Math.max(1, Math.min(5, params.importance ?? 3)),
     source_import_id: params.sourceImportId ?? "",
-    source_section: params.sourceSection ?? ""
+    source_section: params.sourceSection ?? "",
+    content_hash: fileContentHash
   };
 
   db.prepare(
     `INSERT INTO files (
       id, folder_id, display_name, original_name, stored_name, path, size_bytes, created_at,
-      summary, tags_json, keywords_json, importance, source_import_id, source_section
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      summary, tags_json, keywords_json, importance, source_import_id, source_section, content_hash
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   ).run(
     researchFile.id,
     researchFile.folder_id,
@@ -285,7 +360,8 @@ function createFileRecord(
     researchFile.keywords_json,
     researchFile.importance,
     researchFile.source_import_id,
-    researchFile.source_section
+    researchFile.source_section,
+    researchFile.content_hash
   );
   refreshSearchForFile(researchFile, folder);
   return researchFile;
@@ -310,13 +386,112 @@ function parseStringArray(raw: string) {
   }
 }
 
-function formatPromptList(items: string[], fallback = "None listed.") {
-  const cleanItems = items.map((item) => item.trim()).filter(Boolean);
-  return cleanItems.length ? cleanItems.join(", ") : fallback;
+function uniqueNonEmpty(items: string[], limit = 12) {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const item of items) {
+    const clean = item.trim();
+    const key = clean.toLowerCase();
+    if (!clean || seen.has(key)) continue;
+    seen.add(key);
+    result.push(clean);
+    if (result.length >= limit) break;
+  }
+  return result;
+}
+
+function fileTerms(file: ResearchFile) {
+  return uniqueNonEmpty(
+    [
+      file.display_name,
+      file.summary,
+      file.source_section,
+      ...parseStringArray(file.tags_json),
+      ...parseStringArray(file.keywords_json)
+    ],
+    30
+  );
+}
+
+function folderTerms(files: ResearchFile[]) {
+  return uniqueNonEmpty(
+    files.flatMap((file) => [
+      ...parseStringArray(file.tags_json),
+      ...parseStringArray(file.keywords_json),
+      file.source_section
+    ]),
+    18
+  );
+}
+
+function evidenceType(file: ResearchFile) {
+  const text = `${file.display_name} ${file.summary} ${file.source_section} ${parseStringArray(file.tags_json).join(" ")} ${parseStringArray(file.keywords_json).join(" ")}`.toLowerCase();
+  if (/\b(checklist|quality|qc|review|audit|failure|mistake|fix|diagnostic)\b/.test(text)) return "quality gate / diagnostic";
+  if (/\b(template|prompt|recipe|library|formula|blueprint)\b/.test(text)) return "template / reusable pattern";
+  if (/\b(workflow|pipeline|process|production|step|operating model)\b/.test(text)) return "workflow / process";
+  if (/\b(strategy|psychology|principle|framework|standard|model)\b/.test(text)) return "strategy / principles";
+  if (/\b(metric|analytics|testing|experiment|platform)\b/.test(text)) return "platform / measurement";
+  return "reference knowledge";
+}
+
+function priorityFilesForFolder(files: ResearchFile[], limit = 6) {
+  return [...files]
+    .sort((left, right) => {
+      if (right.importance !== left.importance) return right.importance - left.importance;
+      return right.summary.length - left.summary.length;
+    })
+    .slice(0, limit);
+}
+
+function folderRouteLabel(folder: Folder, files: ResearchFile[]) {
+  const terms = folderTerms(files).slice(0, 8);
+  const focus = terms.length ? terms.join(", ") : folder.description || folder.name;
+  return `Use for ${folder.name.toLowerCase()} tasks involving ${focus}.`;
+}
+
+function relatedFoldersFor(folder: Folder, folders: Folder[], limit = 4) {
+  const currentFiles = filesForFolder(folder.id);
+  const currentTerms = new Set(
+    uniqueNonEmpty(
+      [
+        folder.name,
+        folder.description,
+        ...folderTerms(currentFiles),
+        ...currentFiles.flatMap((file) => fileTerms(file))
+      ],
+      80
+    ).map((term) => term.toLowerCase())
+  );
+
+  const scored = folders
+    .filter((candidate) => candidate.id !== folder.id)
+    .map((candidate) => {
+      const candidateFiles = filesForFolder(candidate.id);
+      const candidateTerms = uniqueNonEmpty(
+        [
+          candidate.name,
+          candidate.description,
+          ...folderTerms(candidateFiles),
+          ...candidateFiles.flatMap((file) => fileTerms(file))
+        ],
+        80
+      );
+      const score = candidateTerms.reduce((count, term) => count + (currentTerms.has(term.toLowerCase()) ? 1 : 0), 0);
+      return { folder: candidate, score };
+    })
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => right.score - left.score)
+    .slice(0, limit)
+    .map((entry) => entry.folder);
+
+  return scored;
 }
 
 function buildFolderIndex(folder: Folder) {
   const files = filesForFolder(folder.id);
+  const priorityFiles = priorityFilesForFolder(files);
+  const routingTerms = folderTerms(files).slice(0, 12);
+  const relatedFolders = relatedFoldersFor(folder, allFolders());
   const lines = [
     `# ${folder.name} - Folder Index`,
     "",
@@ -326,9 +501,58 @@ function buildFolderIndex(folder: Folder) {
     "",
     folder.description || "No description has been added yet.",
     "",
-    "## Files",
+    "## Routing Guide",
+    "",
+    `Use this folder when the task needs ${folder.name.toLowerCase()} research, standards, examples, warnings, workflows, or reusable prompt patterns.`,
+    routingTerms.length
+      ? `Strong routing terms: ${routingTerms.join(", ")}.`
+      : "Strong routing terms have not been generated yet.",
+    "",
+    "Do not use this folder as the only context when the task clearly needs adjacent disciplines such as platform strategy, scripting, visual quality, sound, material realism, implementation, or delivery QA.",
+    "",
+    "## Best Entry Points",
     ""
   ];
+
+  if (priorityFiles.length === 0) {
+    lines.push("No priority files are available yet.");
+  } else {
+    for (const file of priorityFiles) {
+      lines.push(`- ${file.display_name} (${file.importance}/5, ${evidenceType(file)})`);
+      lines.push(`  - Path: \`${file.path}\``);
+      lines.push(`  - Use when: ${file.summary || "The task overlaps with this file's title, tags, or source section."}`);
+    }
+  }
+
+  lines.push("");
+  lines.push("## Suggested Reading Order");
+  lines.push("");
+
+  if (priorityFiles.length === 0) {
+    lines.push("No reading order is available yet.");
+  } else {
+    priorityFiles.forEach((file, index) => {
+      lines.push(`${index + 1}. ${file.display_name} - ${evidenceType(file)}.`);
+    });
+  }
+
+  lines.push("");
+  lines.push("## Related Folders");
+  lines.push("");
+
+  if (relatedFolders.length === 0) {
+    lines.push("No strongly related folders were detected from current tags and keywords.");
+  } else {
+    for (const relatedFolder of relatedFolders) {
+      lines.push(`- ${relatedFolder.name}: \`${path.join(folderRoot(relatedFolder), "folder.index.md")}\``);
+    }
+  }
+
+  lines.push(
+    "",
+    "## Files",
+    ""
+  );
 
   if (files.length === 0) {
     lines.push("No Markdown files are stored in this folder yet.");
@@ -343,6 +567,7 @@ function buildFolderIndex(folder: Folder) {
       if (tags.length) lines.push(`  - Tags: ${tags.join(", ")}`);
       if (keywords.length) lines.push(`  - Keywords: ${keywords.join(", ")}`);
       lines.push(`  - Importance: ${file.importance}/5`);
+      lines.push(`  - Evidence type: ${evidenceType(file)}`);
       if (file.source_section) lines.push(`  - Source section: ${file.source_section}`);
       if (file.source_import_id) lines.push(`  - Source import ID: \`${file.source_import_id}\``);
       lines.push(`  - Added: ${file.created_at}`);
@@ -406,7 +631,26 @@ function buildBrainIndex() {
     "",
     `Brain root: \`${BRAIN_DIR}\``,
     "",
-    "Use this index as the high-level map of available local research folders.",
+    "Use this index as the high-level routing map for the local research vault.",
+    "Start here, choose a small set of candidate folders, then open their folder indexes before reading specific Markdown files.",
+    "",
+    "## How To Route",
+    "",
+    "1. Identify the user's real deliverable, platform, audience, medium, quality bar, and constraints.",
+    "2. Choose direct folders that match the deliverable.",
+    "3. Add adjacent folders only when they can materially improve the result.",
+    "4. Open each candidate folder index and read the best entry point files first.",
+    "5. Stop gathering context once the selected files are enough to answer or build confidently.",
+    "",
+    "## Common Routing Patterns",
+    "",
+    "- YouTube script or educational video: start with YouTube Educational Scriptwriting, then add YouTube Video Packaging, Short Form Video Growth Strategy, 2D Educational Animation, sound, color, or motion folders if the deliverable needs them.",
+    "- YouTube titles, thumbnails, descriptions, metadata, or CTR strategy: start with YouTube Video Packaging, then add scriptwriting or viewer psychology folders when promise, retention, or audience fit matters.",
+    "- Short-form reels, TikToks, or Shorts: start with Short Form Video Growth Strategy, then add product, jewelry, sound, lighting, material realism, or platform-specific folders as needed.",
+    "- Product video or AI commercial visuals: start with Product Video Material Realism, Product Video Lighting Standard, Professional 3D Motion Visuals, Color Design, and Premium Product Sound Design.",
+    "- Jewelry or Ring for Baku content: start with AI Jewelry Product Photography, then add material realism, lighting, short-form strategy, and commerce trust folders.",
+    "- Remotion or code-generated video: start with Codex Remotion Video Production, then add motion, UI/UX, sound, color, material, and QA folders based on the scene.",
+    "- UI/UX or front-end implementation: start with Front End UI UX Design, then add product, platform, or motion folders only if relevant.",
     "",
     "## Folders",
     ""
@@ -414,6 +658,8 @@ function buildBrainIndex() {
 
   for (const folder of folders) {
     const folderFiles = filesForFolder(folder.id);
+    const priorityFiles = priorityFilesForFolder(folderFiles, 5);
+    const routingTerms = folderTerms(folderFiles).slice(0, 10);
     lines.push(`### ${folder.name}`);
     lines.push("");
     lines.push(`- Slug: \`${folder.slug}\``);
@@ -421,15 +667,14 @@ function buildBrainIndex() {
     lines.push(`- Folder index: \`${path.join(folderRoot(folder), "folder.index.md")}\``);
     lines.push(`- Folder prompt: \`${path.join(folderRoot(folder), "folder.prompt.md")}\``);
     lines.push(`- Purpose: ${folder.description || "No description has been added yet."}`);
+    lines.push(`- Route when: ${folderRouteLabel(folder, folderFiles)}`);
+    if (routingTerms.length) lines.push(`- Routing terms: ${routingTerms.join(", ")}`);
     lines.push(`- File count: ${folderFiles.length}`);
-    const priorityFiles = [...folderFiles]
-      .sort((left, right) => right.importance - left.importance)
-      .slice(0, 5);
     if (priorityFiles.length) {
       lines.push("- Priority knowledge:");
       for (const file of priorityFiles) {
         lines.push(
-          `  - ${file.display_name} (${file.importance}/5): ${file.summary || "No summary available."}`
+          `  - ${file.display_name} (${file.importance}/5, ${evidenceType(file)}): ${file.summary || "No summary available."}`
         );
       }
     }
@@ -446,7 +691,7 @@ function buildBrainPrompt() {
     "# Codex Research Brain - Global Main Prompt",
     "",
     "You are Codex working with a local Markdown research vault. This prompt is the master router for that vault.",
-    "Use it to find the right research files, read them in the right order, and ground your answer or implementation in the user's saved knowledge.",
+    "Your job is not to answer from memory first. Your job is to route the user's task through the vault, open the right local files, extract the useful standards, and then answer or implement using that evidence.",
     "",
     "## Vault Identity",
     "",
@@ -459,27 +704,59 @@ function buildBrainPrompt() {
     "",
     "## Non-Negotiable Operating Rules",
     "",
-    "1. Treat this research vault as the primary local knowledge source whenever the user's task overlaps with the folder and file map below.",
-    "2. Do not answer from this prompt alone when a listed file is relevant. Open and read the relevant Markdown files before making final claims, recommendations, prompts, plans, code, or creative decisions.",
-    "3. Start with the global index for a compact overview, then read the relevant folder indexes, then read only the specific Markdown files needed for the task.",
-    "4. Use folder purposes, summaries, tags, keywords, source sections, and importance scores to route the task. Do not read every file by default.",
-    "5. If the task spans multiple topics, combine only the matching folders and files. Resolve contradictions explicitly instead of blending them silently.",
-    "6. If no listed folder or file matches the task, say the research brain does not currently contain matching context and continue with general reasoning only if the user wants that.",
-    "7. Preserve the user's intent and the saved research constraints. Do not invent facts that are not in the vault.",
-    "8. Mention or cite local file paths when they would help the user verify where an answer came from.",
-    "9. Do not modify, move, delete, or regenerate vault files unless the user explicitly asks you to maintain the research brain.",
+    "1. Treat this research vault as the primary local knowledge source whenever the user's task overlaps with the saved research index.",
+    "2. Never answer from this prompt alone when vault context is relevant. First open and read the relevant local indexes and Markdown files.",
+    "3. Start with the global index for a compact overview, then read relevant folder indexes, then read only the specific Markdown files needed for the task.",
+    "4. Route by intent, not only by keywords. Infer the user's real deliverable, audience, platform, medium, quality bar, constraints, and hidden support needs.",
+    "5. Select both direct folders and useful adjacent folders. A YouTube task may need scriptwriting, packaging, retention, thumbnail, color, sound, motion, or production workflow research depending on the request.",
+    "6. Use folder purposes, summaries, tags, keywords, source sections, importance scores, and file paths to decide what to read.",
+    "7. Do not read every file by default. Read enough evidence to answer confidently, then stop gathering context.",
+    "8. Treat vault material as saved standards, patterns, examples, heuristics, and warning signs. Adapt it to the current project instead of copying rules mechanically.",
+    "9. If the task spans multiple topics, combine direct and supporting files. Resolve contradictions explicitly instead of blending them silently.",
+    "10. If no indexed folder or file matches the task or its useful adjacent topics, say the research brain does not currently contain matching context and continue with general reasoning only if the user wants that.",
+    "11. Preserve the user's intent and the saved research constraints. Do not invent vault facts that are not present in the files you read.",
+    "12. Mention local file paths when they would help the user verify where an answer came from.",
+    "13. Do not modify, move, delete, or regenerate vault files unless the user explicitly asks you to maintain the research brain.",
     "",
-    "## Recommended Retrieval Workflow",
+    "## Retrieval Workflow",
     "",
     "Use this workflow for every task that may need the vault:",
     "",
-    "1. Read the user's task and extract the real domain, deliverable, constraints, and keywords.",
+    "1. Read the user's task and extract: objective, deliverable, audience, platform, medium, constraints, quality bar, and keywords.",
     `2. Open the global index: ${path.join(BRAIN_DIR, "brain.index.md")}`,
-    "3. Pick candidate folders from the routing map below.",
-    "4. Open each candidate folder's `folder.index.md` for a compact file-level overview.",
-    "5. Open the exact Markdown files whose summaries, tags, keywords, or source sections match the task.",
-    "6. Synthesize from the selected files. Keep unrelated folders out of context to save tokens.",
-    "7. Before finalizing, check whether the answer respects the vault's examples, workflows, warnings, constraints, and decisions.",
+    "3. Build a short candidate list of folders. Include obvious matches and adjacent folders that could materially improve the result.",
+    "4. Open each candidate folder's `folder.index.md` for file-level routing.",
+    "5. Choose the exact Markdown files whose summaries, tags, keywords, examples, source sections, checklists, or workflows can help the current deliverable.",
+    "6. Read those files deeply enough to extract the relevant standards, patterns, constraints, warnings, examples, and reusable templates.",
+    "7. Ignore unrelated files once enough evidence is gathered. Keep context focused.",
+    "8. Synthesize the selected research into project-specific guidance, code, prompts, creative direction, or production decisions.",
+    "9. Before finalizing, check whether the answer respects the vault's examples, workflows, warnings, constraints, and decisions.",
+    "",
+    "## Routing Heuristics",
+    "",
+    "- If the task asks for a script, inspect scriptwriting, viewer psychology, retention, and platform-format folders before writing.",
+    "- If the task asks for YouTube titles, thumbnails, descriptions, metadata, or packaging, inspect YouTube packaging and any adjacent script or audience folders.",
+    "- If the task asks for short-form content, inspect short-form growth plus any domain folders for the product, audience, visual style, sound, or platform.",
+    "- If the task asks for product video, inspect material realism, lighting, professional 3D/motion, color, sound, and product-specific folders.",
+    "- If the task asks for jewelry visuals or Ring for Baku content, inspect jewelry photography plus material realism, lighting, short-form, and trust/content strategy as needed.",
+    "- If the task asks for Remotion or code-generated video, inspect Codex Remotion production plus motion, design, material, audio, and QA folders as needed.",
+    "- If the task asks for UI, UX, app screens, landing pages, or front-end implementation, inspect front-end UI/UX design and any relevant product or media folders.",
+    "- If the task asks for a review, audit, quality bar, or improvement plan, prioritize checklists, failure modes, standards, and QC files.",
+    "",
+    "## Evidence Discipline",
+    "",
+    "- Keep a small mental list of the files you actually used.",
+    "- Do not cite files you did not open.",
+    "- Prefer concrete instructions from the vault over generic best practices.",
+    "- When vault guidance conflicts with the user's request, explain the tradeoff and follow the user's explicit priority unless it would break a saved non-negotiable standard.",
+    "- If a task requires current external facts, verify them separately instead of relying on stale vault material.",
+    "",
+    "## Response Behavior",
+    "",
+    "- Answer in the user's language unless they ask otherwise.",
+    "- Be direct and practical. Convert research into the user's deliverable, not into a long literature summary.",
+    "- When useful, include a short `Used research` section with local file paths.",
+    "- If implementation is requested, use the vault research to guide the implementation and then verify the result normally.",
     "",
     "## Fast Local Commands",
     "",
@@ -489,7 +766,24 @@ function buildBrainPrompt() {
     `- Search research text: \`rg -n \"<topic or keyword>\" ${JSON.stringify(FOLDERS_DIR)}\``,
     `- Open global index: \`sed -n '1,220p' ${JSON.stringify(path.join(BRAIN_DIR, "brain.index.md"))}\``,
     "",
-    "## Routing Map",
+    "## Retrieval Map",
+    "",
+    "Keep this main prompt small. Do not expect the folder map to be embedded here.",
+    `For routing, open the global index: ${path.join(BRAIN_DIR, "brain.index.md")}`,
+    "That index contains folder purposes, priority knowledge, and file-level entry points.",
+    "",
+    "When a task mentions a topic directly, search the vault before choosing files:",
+    "",
+    `- \`rg -n "<topic or keyword>" ${JSON.stringify(FOLDERS_DIR)}\``,
+    "",
+    "Use these steps instead of loading the whole vault into context:",
+    "",
+    "1. Read `brain.index.md` only far enough to identify likely folders.",
+    "2. Open only the matching `folder.index.md` files.",
+    "3. Open only the Markdown files needed for the current deliverable.",
+    "4. Stop reading when the selected files are enough to answer or build confidently.",
+    "",
+    "Do not copy folder summaries, file summaries, tags, or keywords into this main prompt. They belong in `brain.index.md` and `folder.index.md` so this prompt stays stable as the vault grows.",
     ""
   ];
 
@@ -499,51 +793,9 @@ function buildBrainPrompt() {
     return lines.join("\n");
   }
 
-  for (const folder of folders) {
-    const files = filesForFolder(folder.id);
-    lines.push(`### ${folder.name}`);
-    lines.push("");
-    lines.push(`- Slug: \`${folder.slug}\``);
-    lines.push(`- Purpose: ${folder.description || "No description has been added yet."}`);
-    lines.push(`- Folder path: \`${folderRoot(folder)}\``);
-    lines.push(`- Folder index: \`${path.join(folderRoot(folder), "folder.index.md")}\``);
-    lines.push(`- Folder prompt: \`${path.join(folderRoot(folder), "folder.prompt.md")}\``);
-    lines.push(`- Markdown file count: ${files.length}`);
-    const folderTags = Array.from(new Set(files.flatMap((file) => parseStringArray(file.tags_json)))).slice(0, 24);
-    const folderKeywords = Array.from(new Set(files.flatMap((file) => parseStringArray(file.keywords_json)))).slice(0, 32);
-    lines.push(`- Folder tags: ${formatPromptList(folderTags)}`);
-    lines.push(`- Folder keywords: ${formatPromptList(folderKeywords)}`);
-    lines.push("");
-
-    if (files.length === 0) {
-      lines.push("No Markdown files are currently stored in this folder.");
-      lines.push("");
-      continue;
-    }
-
-    lines.push("#### Markdown Files");
-    lines.push("");
-
-    for (const file of files) {
-      const tags = parseStringArray(file.tags_json);
-      const keywords = parseStringArray(file.keywords_json);
-      lines.push(`- ${file.display_name}`);
-      lines.push(`  - Path: \`${file.path}\``);
-      lines.push(`  - Summary: ${file.summary || "No summary available."}`);
-      lines.push(`  - Importance: ${file.importance}/5`);
-      lines.push(`  - Tags: ${formatPromptList(tags)}`);
-      lines.push(`  - Keywords: ${formatPromptList(keywords)}`);
-      lines.push(`  - Source section: ${file.source_section || "Not specified."}`);
-      lines.push(`  - Original source: ${file.original_name || "Not specified."}`);
-      lines.push(`  - Added: ${file.created_at}`);
-    }
-
-    lines.push("");
-  }
-
   lines.push("## Final Handoff Instruction");
   lines.push("");
-  lines.push("Before answering the user, route the task through this map, open the relevant local indexes and Markdown files, and base the final work on the selected research. This prompt is a map, not a substitute for reading the source files.");
+  lines.push("Before answering the user, route the task through `brain.index.md`, open the relevant local indexes and Markdown files, and base the final work on the selected research. This prompt is a router, not a container for vault knowledge.");
   lines.push("");
 
   return lines.join("\n");
@@ -653,6 +905,9 @@ function parseMarkdownMetadata(filePath: string, content: string): MarkdownMetad
 function syncVaultFromDisk(importId = "", originalName = "") {
   ensureDir(FOLDERS_DIR);
   const beforePaths = new Set(allFiles().map((file) => file.path));
+  const createdFolderIds = new Set<string>();
+  const reusedFiles = new Map<string, ResearchFile>();
+  const skippedDuplicatePaths: string[] = [];
   const folders = fs
     .readdirSync(FOLDERS_DIR, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith("."));
@@ -668,6 +923,7 @@ function syncVaultFromDisk(importId = "", originalName = "") {
     if (!folder) {
       const firstMetadata = parseMarkdownMetadata(docs[0], readTextIfExists(docs[0]));
       folder = createFolderRecord(titleFromSlug(slug), firstMetadata.summary || `Research related to ${titleFromSlug(slug)}.`);
+      createdFolderIds.add(folder.id);
       if (folder.slug !== slug) {
         const correctedFolder: Folder = { ...folder, slug };
         db.prepare("UPDATE folders SET slug = ? WHERE id = ?").run(slug, folder.id);
@@ -678,8 +934,21 @@ function syncVaultFromDisk(importId = "", originalName = "") {
     ensureDir(folderDocsDir(folder));
     for (const docPath of docs) {
       const content = readTextIfExists(docPath);
+      const fileContentHash = contentHash(content);
       const metadata = parseMarkdownMetadata(docPath, content);
       const existing = db.prepare("SELECT * FROM files WHERE path = ?").get(docPath) as ResearchFile | undefined;
+      const duplicate = getFileByContentHash(fileContentHash, docPath);
+
+      if (duplicate) {
+        if (fs.existsSync(docPath)) fs.rmSync(docPath);
+        skippedDuplicatePaths.push(docPath);
+        reusedFiles.set(duplicate.id, duplicate);
+        if (existing) {
+          db.prepare("DELETE FROM file_search WHERE file_id = ?").run(existing.id);
+          db.prepare("DELETE FROM files WHERE id = ?").run(existing.id);
+        }
+        continue;
+      }
 
       if (existing) {
         const updated: ResearchFile = {
@@ -692,12 +961,13 @@ function syncVaultFromDisk(importId = "", originalName = "") {
           keywords_json: JSON.stringify(metadata.keywords),
           importance: metadata.importance,
           source_import_id: metadata.sourceImportId || existing.source_import_id || importId,
-          source_section: metadata.sourceSection || existing.source_section
+          source_section: metadata.sourceSection || existing.source_section,
+          content_hash: fileContentHash
         };
         db.prepare(
           `UPDATE files
            SET display_name = ?, original_name = ?, size_bytes = ?, summary = ?, tags_json = ?,
-               keywords_json = ?, importance = ?, source_import_id = ?, source_section = ?
+               keywords_json = ?, importance = ?, source_import_id = ?, source_section = ?, content_hash = ?
            WHERE id = ?`
         ).run(
           updated.display_name,
@@ -709,6 +979,7 @@ function syncVaultFromDisk(importId = "", originalName = "") {
           updated.importance,
           updated.source_import_id,
           updated.source_section,
+          updated.content_hash,
           updated.id
         );
         refreshSearchForFile(updated, folder);
@@ -727,13 +998,14 @@ function syncVaultFromDisk(importId = "", originalName = "") {
           keywords_json: JSON.stringify(metadata.keywords),
           importance: metadata.importance,
           source_import_id: metadata.sourceImportId || importId,
-          source_section: metadata.sourceSection
+          source_section: metadata.sourceSection,
+          content_hash: fileContentHash
         };
         db.prepare(
           `INSERT INTO files (
             id, folder_id, display_name, original_name, stored_name, path, size_bytes, created_at,
-            summary, tags_json, keywords_json, importance, source_import_id, source_section
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+            summary, tags_json, keywords_json, importance, source_import_id, source_section, content_hash
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
         ).run(
           researchFile.id,
           researchFile.folder_id,
@@ -748,7 +1020,8 @@ function syncVaultFromDisk(importId = "", originalName = "") {
           researchFile.keywords_json,
           researchFile.importance,
           researchFile.source_import_id,
-          researchFile.source_section
+          researchFile.source_section,
+          researchFile.content_hash
         );
         refreshSearchForFile(researchFile, folder);
       }
@@ -761,8 +1034,63 @@ function syncVaultFromDisk(importId = "", originalName = "") {
     db.prepare("DELETE FROM files WHERE id = ?").run(file.id);
   }
 
+  const removedEmptyFolders: string[] = [];
+  for (const folderId of createdFolderIds) {
+    const folder = getFolder(folderId);
+    if (!folder || filesForFolder(folder.id).length > 0) continue;
+    if (markdownFilesIn(folderDocsDir(folder)).length > 0) continue;
+    db.prepare("DELETE FROM folders WHERE id = ?").run(folder.id);
+    fs.rmSync(folderRoot(folder), { recursive: true, force: true });
+    removedEmptyFolders.push(folderRoot(folder));
+  }
+
   regeneratePrompts();
-  return allFiles().filter((file) => !beforePaths.has(file.path) || (importId && file.source_import_id === importId));
+  const indexedFiles = allFiles().filter((file) => !beforePaths.has(file.path) || (importId && file.source_import_id === importId));
+  const files = new Map<string, ResearchFile>();
+  for (const file of indexedFiles) files.set(file.id, file);
+  for (const file of reusedFiles.values()) files.set(file.id, file);
+
+  return {
+    files: [...files.values()],
+    createdFiles: indexedFiles.filter((file) => !beforePaths.has(file.path)),
+    reusedFiles: [...reusedFiles.values()],
+    skippedDuplicatePaths,
+    removedEmptyFolders
+  };
+}
+
+function backfillContentHashes() {
+  for (const file of allFiles()) {
+    if (file.content_hash) continue;
+    const content = readTextIfExists(file.path);
+    if (!content) continue;
+    db.prepare("UPDATE files SET content_hash = ? WHERE id = ?").run(contentHash(content), file.id);
+  }
+}
+
+function backfillSourceHashes() {
+  const imports = db.prepare("SELECT * FROM imports WHERE source_hash = ''").all() as ImportRecord[];
+  for (const importRecord of imports) {
+    const content = readTextIfExists(importRecord.source_path);
+    if (!content) continue;
+    db.prepare("UPDATE imports SET source_hash = ? WHERE id = ?").run(contentHash(content), importRecord.id);
+  }
+}
+
+function filesForImportRecord(importRecord: ImportRecord) {
+  const directFiles = filesForImport(importRecord.id);
+  if (directFiles.length > 0) return directFiles;
+
+  const manifestPath = path.join(path.dirname(importRecord.source_path), `${importRecord.id}.manifest.json`);
+  try {
+    const manifest = JSON.parse(readTextIfExists(manifestPath)) as { generatedFiles?: Array<{ fileId?: string }> };
+    const files = (manifest.generatedFiles ?? [])
+      .map((entry) => (entry.fileId ? getFile(entry.fileId) : undefined))
+      .filter((file): file is ResearchFile => Boolean(file));
+    return files;
+  } catch {
+    return [];
+  }
 }
 
 function cleanupLegacyEmptyFolders() {
@@ -796,37 +1124,62 @@ function buildCodexWritePrompt(sourcePath: string, originalName: string, importI
     `Original upload name: ${originalName}`,
     `Source import ID: ${importId}`,
     `Vault folder root: ${FOLDERS_DIR}`,
+    `Global brain index: ${path.join(BRAIN_DIR, "brain.index.md")}`,
     "",
     "Existing folders you may reuse:",
     JSON.stringify(folders, null, 2),
     "",
     "Required workflow:",
     "1. Read the source file deeply.",
-    "2. Identify valuable knowledge and remove duplicated, outdated, navigational, empty, or low-value text.",
-    "3. Split only when it creates genuinely useful standalone knowledge units. If the whole document is coherent, keep it as one file.",
-    "4. If headings are weak or missing, infer sections semantically from topics, workflows, examples, warnings, decisions, and constraints.",
-    "5. Reuse an existing folder slug only when it clearly fits. Otherwise create a new English slug under the vault folder root.",
-    "6. For every useful knowledge unit, create exactly one Markdown file at:",
+    "2. Read the global brain index and any relevant existing folder indexes before deciding where to write.",
+    "3. Identify valuable knowledge and remove duplicated, outdated, navigational, empty, or low-value text.",
+    "4. If a useful knowledge unit is already present in the vault, do not create another copy of it.",
+    "5. Split only when it creates genuinely useful standalone knowledge units. If the whole document is coherent, keep it as one file.",
+    "6. If headings are weak or missing, infer sections semantically from topics, workflows, examples, warnings, decisions, and constraints.",
+    "7. Reuse an existing folder slug when the topic already fits that folder. Do not create a near-duplicate folder with a renamed version of the same subject.",
+    "8. Otherwise create a new English slug under the vault folder root.",
+    "9. For every useful non-duplicate knowledge unit, create exactly one Markdown file at:",
     "   research-brain/vault/folders/<folder-slug>/docs/<clean-file-slug>.md",
-    "7. Use only lowercase kebab-case slugs for folder and file names.",
-    "8. Do not edit brain.index.md, brain.prompt.md, folder.index.md, folder.prompt.md, brain.sqlite, package files, source code, or the original uploaded file.",
-    "9. Do not create Inbox or Youtube folders unless the source content truly requires those topics.",
+    "10. Use only lowercase kebab-case slugs for folder and file names.",
+    "11. Do not edit brain.index.md, brain.prompt.md, folder.index.md, folder.prompt.md, brain.sqlite, package files, source code, or the original uploaded file.",
+    "12. Do not create Inbox or Youtube folders unless the source content truly requires those topics.",
+    "13. Write metadata for retrieval quality, not decoration. Codex will later use your metadata to decide which files to open.",
     "",
-    "Every created Markdown file must start with this YAML-style frontmatter:",
+    "Importance scoring rubric:",
+    "- 5 = foundational standard, core workflow, reusable operating model, or source that should usually be read first for this topic.",
+    "- 4 = strong practical guide, checklist, template, or high-value playbook for common tasks.",
+    "- 3 = useful supporting reference, examples, platform notes, or narrower workflow.",
+    "- 2 = niche detail, secondary context, or special-case guidance.",
+    "- 1 = low-priority reference that is still worth preserving but rarely the first file to read.",
+    "",
+    "Metadata quality rules:",
+    "- `title` must be a clear standalone English title, not a copied source heading if it is vague.",
+    "- `summary` must explain what decision, task, or deliverable this file helps with.",
+    "- `tags` should be broad routing labels such as platform, medium, discipline, asset type, or workflow category.",
+    "- `keywords` should include exact phrases a future user might mention when looking for this knowledge.",
+    "- `routing_use` should say when Codex should open this file.",
+    "- `routing_avoid` should say when this file is not enough or should not be the main context.",
+    "- `evidence_type` should be one of: strategy, workflow, checklist, template, failure-modes, platform-reference, examples, quality-standard.",
+    "",
+    "Every created Markdown file must start with this YAML-style frontmatter. Replace the example values with accurate values for the specific knowledge unit:",
     "---",
     `source_import_id: ${JSON.stringify(importId)}`,
     `source_file: ${JSON.stringify(originalName)}`,
     "source_section: \"Original section or inferred topic\"",
     "title: \"Clean standalone English title\"",
-    "summary: \"Concise English summary of the useful knowledge in this file\"",
-    "importance: 1",
-    "tags: [\"tag-one\", \"tag-two\"]",
-    "keywords: [\"search phrase\", \"specific concept\"]",
+    "summary: \"Concise English summary of the useful knowledge and the task it supports\"",
+    "importance: 4",
+    "evidence_type: \"workflow\"",
+    "routing_use: \"Open this file when the user needs the specific decisions, standards, workflow, checklist, or templates covered here.\"",
+    "routing_avoid: \"Do not use this file as the only source when the task also needs adjacent strategy, platform, visual, sound, implementation, or QA context.\"",
+    "tags: [\"broad-routing-tag\", \"workflow-category\"]",
+    "keywords: [\"exact search phrase\", \"specific concept\", \"task wording\"]",
     "---",
     "",
     "Then write polished Markdown content with a clear H1 and useful subsections.",
     "Preserve factual details, constraints, examples, commands, code snippets, workflows, warnings, and decisions from the source.",
     "Do not hallucinate or add unsupported claims.",
+    "Include a short `When to use this file` section near the top when the routing value is not obvious from the title.",
     "",
     "When finished, reply briefly with the list of files you created."
   ].join("\n");
@@ -924,6 +1277,32 @@ async function runCodexFileWriter(sourcePath: string, originalName: string, impo
   ]);
 }
 
+function buildSegmentResults(files: ResearchFile[]) {
+  const usedFolders = new Map<string, Folder>();
+  const segmentResults = files.map((importedFile) => {
+    const folder = getFolder(importedFile.folder_id);
+    if (folder) usedFolders.set(folder.id, folder);
+    return {
+      title: importedFile.display_name,
+      summary: importedFile.summary,
+      folderName: folder?.name ?? "Unknown Folder",
+      folderSlug: folder?.slug ?? "",
+      tags: parseStringArray(importedFile.tags_json),
+      keywords: parseStringArray(importedFile.keywords_json),
+      importance: importedFile.importance,
+      fileId: importedFile.id,
+      filePath: importedFile.path
+    };
+  });
+
+  return {
+    usedFolders,
+    segmentResults
+  };
+}
+
+backfillContentHashes();
+backfillSourceHashes();
 cleanupLegacyEmptyFolders();
 regeneratePrompts();
 
@@ -1058,12 +1437,19 @@ app.post("/api/files/upload", upload.single("file"), (req, res) => {
     return;
   }
 
+  const content = file.buffer.toString("utf8");
+  const duplicate = getFileByContentHash(contentHash(content));
+  if (duplicate) {
+    res.status(200).json(duplicate);
+    return;
+  }
+
   const folder = getFolder(String(req.body.folderId ?? "")) ?? createFolderRecord("Imported Research", "Manually imported research files.");
   const displayName = String(req.body.displayName ?? "").trim() || path.parse(file.originalname).name;
   const researchFile = createFileRecord(folder, {
     displayName,
     originalName: file.originalname,
-    content: file.buffer.toString("utf8")
+    content
   });
   regeneratePrompts();
   res.status(201).json(researchFile);
@@ -1081,11 +1467,45 @@ app.post("/api/import/auto", upload.single("file"), async (req, res) => {
     return;
   }
 
+  const content = file.buffer.toString("utf8");
+  const sourceHash = contentHash(content);
+  const existingImport = getImportBySourceHash(sourceHash);
+  if (existingImport) {
+    const existingFiles = filesForImportRecord(existingImport);
+    if (existingFiles.length > 0) {
+      const { usedFolders, segmentResults } = buildSegmentResults(existingFiles);
+      const documentTitle = existingImport.document_title || path.parse(file.originalname).name;
+      res.status(200).json({
+        ok: true,
+        duplicate: true,
+        importId: existingImport.id,
+        duplicateOfImportId: existingImport.id,
+        plan: {
+          documentTitle,
+          documentSummary: `This Markdown source was already imported as ${existingImport.original_name}. Existing knowledge files were reused instead of creating copies.`,
+          discardedSummary: "The uploaded source matched an existing import hash, so Codex was not run again.",
+          confidence: 1
+        },
+        folders: [...usedFolders.values()],
+        files: existingFiles,
+        segments: segmentResults,
+        createdFileCount: 0,
+        reusedFileCount: existingFiles.length,
+        skippedDuplicateFileCount: existingFiles.length,
+        structure: {
+          brainDir: BRAIN_DIR,
+          sourcePath: existingImport.source_path,
+          manifestPath: path.join(path.dirname(existingImport.source_path), `${existingImport.id}.manifest.json`)
+        }
+      });
+      return;
+    }
+  }
+
   const importId = randomUUID();
   const pendingDir = path.join(IMPORTS_DIR, "pending");
   ensureDir(pendingDir);
   const pendingPath = path.join(pendingDir, `${importId}-${safeFilename(file.originalname)}`);
-  const content = file.buffer.toString("utf8");
   writeText(pendingPath, content);
 
   try {
@@ -1095,45 +1515,39 @@ app.post("/api/import/auto", upload.single("file"), async (req, res) => {
     const archivePath = path.join(archiveDir, `${importId}-${safeFilename(file.originalname)}`);
     fs.renameSync(pendingPath, archivePath);
 
-    const importedFiles = syncVaultFromDisk(importId, file.originalname);
+    const syncResult = syncVaultFromDisk(importId, file.originalname);
+    const importedFiles = syncResult.files;
     if (importedFiles.length === 0) {
       throw new Error("Codex finished but did not create any Markdown knowledge files in the vault.");
     }
 
-    const usedFolders = new Map<string, Folder>();
-    const segmentResults = importedFiles.map((importedFile) => {
-      const folder = getFolder(importedFile.folder_id);
-      if (folder) usedFolders.set(folder.id, folder);
-      return {
-        title: importedFile.display_name,
-        summary: importedFile.summary,
-        folderName: folder?.name ?? "Unknown Folder",
-        folderSlug: folder?.slug ?? "",
-        tags: parseStringArray(importedFile.tags_json),
-        keywords: parseStringArray(importedFile.keywords_json),
-        importance: importedFile.importance,
-        fileId: importedFile.id,
-        filePath: importedFile.path
-      };
-    });
+    const { usedFolders, segmentResults } = buildSegmentResults(importedFiles);
 
     const documentTitle = path.parse(file.originalname).name;
-    const documentSummary = `Codex organized ${importedFiles.length} Markdown knowledge unit${importedFiles.length === 1 ? "" : "s"} from ${file.originalname}.`;
+    const createdCount = syncResult.createdFiles.length;
+    const reusedCount = syncResult.reusedFiles.length;
+    const documentSummary =
+      reusedCount > 0
+        ? `Codex organized ${createdCount} new Markdown knowledge unit${createdCount === 1 ? "" : "s"} from ${file.originalname} and reused ${reusedCount} existing duplicate-free unit${reusedCount === 1 ? "" : "s"}.`
+        : `Codex organized ${importedFiles.length} Markdown knowledge unit${importedFiles.length === 1 ? "" : "s"} from ${file.originalname}.`;
 
     db.prepare(
       `INSERT INTO imports (
         id, original_name, source_path, document_title, document_summary,
-        discarded_summary, segment_count, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+        discarded_summary, segment_count, created_at, source_hash
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
     ).run(
       importId,
       file.originalname,
       archivePath,
       documentTitle,
       documentSummary,
-      "Codex removed low-value or duplicated material during direct file creation when appropriate.",
+      syncResult.skippedDuplicatePaths.length > 0
+        ? `Skipped ${syncResult.skippedDuplicatePaths.length} duplicate Markdown file${syncResult.skippedDuplicatePaths.length === 1 ? "" : "s"} during vault indexing.`
+        : "Codex removed low-value or duplicated material during direct file creation when appropriate.",
       importedFiles.length,
-      nowIso()
+      nowIso(),
+      sourceHash
     );
 
     const manifestPath = path.join(archiveDir, `${importId}.manifest.json`);
@@ -1144,7 +1558,11 @@ app.post("/api/import/auto", upload.single("file"), async (req, res) => {
           importId,
           originalName: file.originalname,
           archivePath,
-          generatedFiles: segmentResults
+          generatedFiles: segmentResults,
+          createdFileCount: createdCount,
+          reusedFileCount: reusedCount,
+          skippedDuplicatePaths: syncResult.skippedDuplicatePaths,
+          removedEmptyFolders: syncResult.removedEmptyFolders
         },
         null,
         2
@@ -1164,6 +1582,9 @@ app.post("/api/import/auto", upload.single("file"), async (req, res) => {
       folders: [...usedFolders.values()],
       files: importedFiles,
       segments: segmentResults,
+      createdFileCount: createdCount,
+      reusedFileCount: reusedCount,
+      skippedDuplicateFileCount: syncResult.skippedDuplicatePaths.length,
       structure: {
         brainDir: BRAIN_DIR,
         sourcePath: archivePath,

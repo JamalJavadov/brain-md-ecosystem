@@ -61,6 +61,7 @@ which generated files were indexed.
 - Mixed-topic source splitting into clean, standalone knowledge files.
 - Automatic reuse of suitable folders and creation of new folders.
 - Removal of duplicated, irrelevant, outdated, or low-value source material.
+- Hash-based duplicate protection for repeated source files and repeated generated knowledge files.
 - Generated summaries, tags, keywords, importance scores, and source links.
 - Import progress UI.
 - Structure browser for folders and files.
@@ -86,6 +87,13 @@ creates the correct folder structure, and writes cleaned Markdown files directly
 under `research-brain/vault/folders/`. The app then scans the vault, updates
 SQLite metadata, archives the untouched source, and regenerates all indexes and
 prompts.
+
+Before Codex runs, the backend checks the uploaded Markdown content hash. If the
+same source has already been imported, the app reuses the existing indexed
+knowledge files instead of running Codex or creating more folders. During vault
+indexing, generated Markdown files are also fingerprinted without frontmatter; if
+Codex writes a duplicate knowledge unit, the duplicate file is removed and the
+existing file is reused.
 
 The app does not impose a fixed 240-second Codex timeout. Large Markdown files
 are allowed to run as long as Codex needs, subject to Codex availability and
