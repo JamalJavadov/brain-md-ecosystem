@@ -69,6 +69,23 @@ Newly imported knowledge files use content-hash filename suffixes so two
 computers can import similarly named material into the same folder without
 usually creating a Git add/add conflict.
 
+## Automatic Git Sync
+
+Automatic Git sync is enabled by default.
+
+- On app startup, the backend runs `git pull --ff-only` before rebuilding the
+  local SQLite/search index from Markdown.
+- After a successful import or vault edit, the backend stages only
+  `research-brain/vault/folders`, creates a commit, and pushes it to the
+  configured upstream.
+- If local uncommitted changes exist when the app starts, startup pull is
+  skipped so local work is not overwritten.
+- If push is rejected, the backend tries one `git pull --rebase` and pushes
+  again. If that rebase conflicts, it aborts and reports that manual Git help is
+  needed.
+
+Set `AUTO_GIT_SYNC=0` before starting the app to disable this behavior.
+
 ## Current Features
 
 - Deep automatic Markdown analysis with Codex CLI.

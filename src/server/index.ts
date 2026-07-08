@@ -3,7 +3,7 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import { createHash, randomUUID } from "node:crypto";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { DatabaseSync } from "node:sqlite";
 import multer from "multer";
 
@@ -18,6 +18,7 @@ const CLIENT_DIST_DIR = path.join(ROOT_DIR, "dist");
 const CODEX_BIN = process.env.CODEX_BIN ?? "/Applications/Codex.app/Contents/Resources/codex";
 const CODEX_MODEL = process.env.CODEX_MODEL ?? "gpt-5.5";
 const CODEX_REASONING_EFFORT = process.env.CODEX_REASONING_EFFORT ?? "high";
+const AUTO_GIT_SYNC = process.env.AUTO_GIT_SYNC !== "0";
 
 type Folder = {
   id: string;
@@ -113,6 +114,126 @@ function readTextIfExists(filePath: string) {
 function writeText(filePath: string, content: string) {
   ensureDir(path.dirname(filePath));
   fs.writeFileSync(filePath, content, "utf8");
+}
+
+type GitSyncResult = {
+  ok: boolean;
+  action: "disabled" | "skipped" | "pulled" | "committed-and-pushed" | "no-changes" | "failed";
+  message: string;
+  details?: string;
+};
+
+function runGit(args: string[], timeoutMs = 120_000) {
+  const result = spawnSync("git", args, {
+    cwd: ROOT_DIR,
+    encoding: "utf8",
+    timeout: timeoutMs
+  });
+  return {
+    status: result.status ?? 1,
+    stdout: result.stdout.trim(),
+    stderr: result.stderr.trim()
+  };
+}
+
+function gitOutput(output: { stdout: string; stderr: string }) {
+  return [output.stdout, output.stderr].filter(Boolean).join("\n").trim();
+}
+
+function gitIsAvailable(): { ok: true } | { ok: false; result: GitSyncResult } {
+  if (!AUTO_GIT_SYNC) {
+    return { ok: false, result: { ok: true, action: "disabled", message: "Automatic Git sync is disabled." } as GitSyncResult };
+  }
+
+  const insideRepo = runGit(["rev-parse", "--is-inside-work-tree"], 10_000);
+  if (insideRepo.status !== 0 || insideRepo.stdout !== "true") {
+    return {
+      ok: false,
+      result: {
+        ok: false,
+        action: "skipped",
+        message: "Automatic Git sync was skipped because this folder is not a Git repository.",
+        details: gitOutput(insideRepo)
+      } as GitSyncResult
+    };
+  }
+
+  return { ok: true };
+}
+
+function gitPullOnStartup(): GitSyncResult {
+  const availability = gitIsAvailable();
+  if (!availability.ok) return availability.result;
+
+  const status = runGit(["status", "--porcelain"], 10_000);
+  if (status.status !== 0) {
+    return { ok: false, action: "failed", message: "Could not check Git status before startup pull.", details: gitOutput(status) };
+  }
+
+  if (status.stdout) {
+    return {
+      ok: true,
+      action: "skipped",
+      message: "Startup Git pull skipped because there are local uncommitted changes.",
+      details: status.stdout
+    };
+  }
+
+  const pull = runGit(["pull", "--ff-only"]);
+  if (pull.status !== 0) {
+    return { ok: false, action: "failed", message: "Startup Git pull failed.", details: gitOutput(pull) };
+  }
+
+  return { ok: true, action: "pulled", message: "Startup Git pull completed.", details: gitOutput(pull) };
+}
+
+function gitCommitAndPushVault(reason: string): GitSyncResult {
+  const availability = gitIsAvailable();
+  if (!availability.ok) return availability.result;
+
+  const add = runGit(["add", "research-brain/vault/folders"]);
+  if (add.status !== 0) {
+    return { ok: false, action: "failed", message: "Could not stage Markdown vault files for Git sync.", details: gitOutput(add) };
+  }
+
+  const diff = runGit(["diff", "--cached", "--quiet", "--", "research-brain/vault/folders"], 10_000);
+  if (diff.status === 0) {
+    return { ok: true, action: "no-changes", message: "No Git-tracked Markdown vault changes needed pushing." };
+  }
+
+  const cleanReason = reason.replace(/\s+/g, " ").trim().slice(0, 80) || "vault update";
+  const commit = runGit(["commit", "-m", `Sync research brain vault: ${cleanReason}`]);
+  if (commit.status !== 0) {
+    return { ok: false, action: "failed", message: "Could not commit Markdown vault changes.", details: gitOutput(commit) };
+  }
+
+  const firstPush = runGit(["push"]);
+  if (firstPush.status === 0) {
+    return { ok: true, action: "committed-and-pushed", message: "Markdown vault changes were committed and pushed.", details: gitOutput(firstPush) };
+  }
+
+  const pull = runGit(["pull", "--rebase"]);
+  if (pull.status !== 0) {
+    const abort = runGit(["rebase", "--abort"], 30_000);
+    return {
+      ok: false,
+      action: "failed",
+      message: "Git push was rejected and automatic rebase failed. Manual pull/rebase is needed.",
+      details: [gitOutput(firstPush), gitOutput(pull), gitOutput(abort)].filter(Boolean).join("\n")
+    };
+  }
+
+  const secondPush = runGit(["push"]);
+  if (secondPush.status !== 0) {
+    return { ok: false, action: "failed", message: "Git rebase completed, but push still failed.", details: gitOutput(secondPush) };
+  }
+
+  return {
+    ok: true,
+    action: "committed-and-pushed",
+    message: "Markdown vault changes were committed, rebased with remote changes, and pushed.",
+    details: [gitOutput(firstPush), gitOutput(pull), gitOutput(secondPush)].filter(Boolean).join("\n")
+  };
 }
 
 function folderRoot(folder: Folder) {
@@ -1459,6 +1580,10 @@ function buildSegmentResults(files: ResearchFile[]) {
   };
 }
 
+const STARTUP_GIT_SYNC_RESULT = gitPullOnStartup();
+console.log(STARTUP_GIT_SYNC_RESULT.message);
+if (STARTUP_GIT_SYNC_RESULT.details) console.log(STARTUP_GIT_SYNC_RESULT.details);
+
 syncVaultFromDisk();
 backfillContentHashes();
 backfillSourceHashes();
@@ -1470,7 +1595,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, brainDir: BRAIN_DIR });
+  res.json({ ok: true, brainDir: BRAIN_DIR, startupGitSync: STARTUP_GIT_SYNC_RESULT });
 });
 
 app.get("/api/folders", (_req, res) => {
@@ -1523,8 +1648,10 @@ app.post("/api/folders", (req, res) => {
     "INSERT INTO folders (id, slug, name, description, is_inbox, created_at) VALUES (?, ?, ?, ?, ?, ?)"
   ).run(folder.id, folder.slug, folder.name, folder.description, folder.is_inbox, folder.created_at);
   ensureDir(folderDocsDir(folder));
+  writeFolderMetadata(folder);
   regeneratePrompts();
-  res.status(201).json(folder);
+  const gitSync = gitCommitAndPushVault(`create folder ${folder.name}`);
+  res.status(201).json({ ...folder, gitSync });
 });
 
 app.patch("/api/folders/:id", (req, res) => {
@@ -1548,7 +1675,8 @@ app.patch("/api/folders/:id", (req, res) => {
     refreshSearchForFile(file, updatedFolder);
   }
   regeneratePrompts();
-  res.json(updatedFolder);
+  const gitSync = gitCommitAndPushVault(`update folder ${updatedFolder.name}`);
+  res.json({ ...updatedFolder, gitSync });
 });
 
 app.delete("/api/folders/:id", (req, res) => {
@@ -1567,7 +1695,8 @@ app.delete("/api/folders/:id", (req, res) => {
   db.prepare("DELETE FROM folders WHERE id = ?").run(folder.id);
   fs.rmSync(folderRoot(folder), { recursive: true, force: true });
   regeneratePrompts();
-  res.json({ ok: true });
+  const gitSync = gitCommitAndPushVault(`delete folder ${folder.name}`);
+  res.json({ ok: true, gitSync });
 });
 
 app.get("/api/files", (req, res) => {
@@ -1612,7 +1741,8 @@ app.post("/api/files/upload", upload.single("file"), (req, res) => {
     content
   });
   regeneratePrompts();
-  res.status(201).json(researchFile);
+  const gitSync = gitCommitAndPushVault(`manual import ${file.originalname}`);
+  res.status(201).json({ ...researchFile, gitSync });
 });
 
 app.post("/api/import/auto", upload.single("file"), async (req, res) => {
@@ -1730,6 +1860,7 @@ app.post("/api/import/auto", upload.single("file"), async (req, res) => {
     );
 
     regeneratePrompts();
+    const gitSync = gitCommitAndPushVault(`automatic import ${file.originalname}`);
     res.status(201).json({
       ok: true,
       importId,
@@ -1745,6 +1876,7 @@ app.post("/api/import/auto", upload.single("file"), async (req, res) => {
       createdFileCount: createdCount,
       reusedFileCount: reusedCount,
       skippedDuplicateFileCount: syncResult.skippedDuplicatePaths.length,
+      gitSync,
       structure: {
         brainDir: BRAIN_DIR,
         sourcePath: archivePath,
@@ -1789,7 +1921,8 @@ app.patch("/api/files/:id/move", (req, res) => {
   );
   refreshSearchForFile(movedFile, targetFolder);
   regeneratePrompts();
-  res.json(movedFile);
+  const gitSync = gitCommitAndPushVault(`move file ${movedFile.display_name}`);
+  res.json({ ...movedFile, gitSync });
 });
 
 app.patch("/api/files/:id", (req, res) => {
@@ -1833,7 +1966,8 @@ app.patch("/api/files/:id", (req, res) => {
   );
   refreshSearchForFile(renamedFile, folder);
   regeneratePrompts();
-  res.json(renamedFile);
+  const gitSync = gitCommitAndPushVault(`rename file ${renamedFile.display_name}`);
+  res.json({ ...renamedFile, gitSync });
 });
 
 app.delete("/api/files/:id", (req, res) => {
@@ -1847,7 +1981,8 @@ app.delete("/api/files/:id", (req, res) => {
   db.prepare("DELETE FROM file_search WHERE file_id = ?").run(file.id);
   db.prepare("DELETE FROM files WHERE id = ?").run(file.id);
   regeneratePrompts();
-  res.json({ ok: true });
+  const gitSync = gitCommitAndPushVault(`delete file ${file.display_name}`);
+  res.json({ ok: true, gitSync });
 });
 
 app.get("/api/search", (req, res) => {

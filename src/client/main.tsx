@@ -41,6 +41,13 @@ type StructureResponse = {
   folders: Folder[];
 };
 
+type GitSyncResult = {
+  ok: boolean;
+  action: "disabled" | "skipped" | "pulled" | "committed-and-pushed" | "no-changes" | "failed";
+  message: string;
+  details?: string;
+};
+
 type ImportResult = {
   ok: boolean;
   importId: string;
@@ -57,6 +64,7 @@ type ImportResult = {
   };
   folders: Folder[];
   files: ResearchFile[];
+  gitSync?: GitSyncResult;
   segments: Array<{
     title: string;
     summary: string;
@@ -371,9 +379,17 @@ function App() {
           completedCount += 1;
           lastFolderId = result.folders[0]?.id ?? lastFolderId;
           setImportResult(result);
+          const doneMessage =
+            result.gitSync?.action === "committed-and-pushed"
+              ? "Imported successfully and pushed to GitHub."
+              : result.gitSync?.action === "no-changes"
+                ? "Imported successfully. No Git changes needed."
+                : result.gitSync?.ok === false
+                  ? `Imported successfully. Git sync needs attention: ${result.gitSync.message}`
+                  : "Imported successfully.";
           setImportQueue((current) =>
             current.map((queueItem) =>
-              queueItem.id === item.id ? { ...queueItem, status: "done", message: "Imported successfully." } : queueItem
+              queueItem.id === item.id ? { ...queueItem, status: "done", message: doneMessage } : queueItem
             )
           );
           setProgress(99);
